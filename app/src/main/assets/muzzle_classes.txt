@@ -1,0 +1,2 @@
+muzzle
+no-muzzle

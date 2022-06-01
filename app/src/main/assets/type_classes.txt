@@ -1,0 +1,4 @@
+Dog
+Rottweiler
+dangerous_dog
+tosa

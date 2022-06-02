@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.undercouch.download'
 
 android {
@@ -45,22 +46,12 @@ project.ext.TMP_DIR = project.buildDir.toString() + '/downloads'
 
 dependencies {
 
-//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-//    implementation files('bin/gdbserver')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'org.tensorflow:tensorflow-lite:2.4.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.4.0'
-//    implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:2.3.0'
-//    implementation 'org.tensorflow:tensorflow-lite:2.2.0'
-//    implementation 'org.tensorflow:tensorflow-lite-gpu:2.2.0'
-//    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
-//    implementation(name:'tensorflow-lite', ext:'aar')
-//    implementation(name:'tensorflow-lite-gpu', ext:'aar')
 
-//    implementation 'org.tensorflow:tensorflow-lite-gpu:1.14.0'
-//    implementation 'org.tensorflow:tensorflow-lite:0.0.0-gpu-experimental'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -68,6 +59,7 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.0.1'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'de.hdodenhof:circleimageview:3.1.0' //Circle ImageView
 }
 repositories {
     mavenCentral()

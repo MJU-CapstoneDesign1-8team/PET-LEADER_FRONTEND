@@ -33,24 +33,19 @@
             android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".profile.MainActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name="org.tensorflow.lite.TestActivity" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+            android:name=".faq.FaqActivity"
+            android:exported="false" />
         <activity
-            android:name=".DetectorActivity"
+            android:name=".yolov5.DetectorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
             tools:node="merge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

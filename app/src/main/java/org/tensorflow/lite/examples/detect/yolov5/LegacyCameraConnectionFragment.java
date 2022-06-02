@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detect;
+package org.tensorflow.lite.examples.detect.yolov5;
 
 /*
  * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
@@ -33,9 +33,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.io.IOException;
 import java.util.List;
-import org.tensorflow.lite.examples.detect.customview.AutoFitTextureView;
-import org.tensorflow.lite.examples.detect.env.ImageUtils;
-import org.tensorflow.lite.examples.detect.env.Logger;
+
+import org.tensorflow.lite.examples.detect.R;
+import org.tensorflow.lite.examples.detect.yolov5.customview.AutoFitTextureView;
+import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
 
 @SuppressLint("ValidFragment")
 public class LegacyCameraConnectionFragment extends Fragment {

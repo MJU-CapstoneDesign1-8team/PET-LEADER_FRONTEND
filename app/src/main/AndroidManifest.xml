@@ -29,27 +29,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ObjectDetection"
         tools:ignore="HardcodedDebugMode">
-
-<!--        <activity-->
-<!--            android:name="org.tensorflow.lite.TestActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
         <activity
-            android:name=".DetectorActivity"
-            android:exported="true"
-            android:label="@string/tfe_od_app_name"
-            android:screenOrientation="portrait"
-            tools:node="merge">
+            android:name=".HomeActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".faq.FaqActivity"
+            android:exported="true" >
+
+        </activity>
+        <!-- <activity -->
+        <!-- android:name="org.tensorflow.lite.TestActivity" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".yolov5.DetectorActivity"
+            android:exported="true"
+            android:label="@string/tfe_od_app_name"
+            android:screenOrientation="portrait"
+            tools:node="merge">
+
         </activity>
     </application>
 

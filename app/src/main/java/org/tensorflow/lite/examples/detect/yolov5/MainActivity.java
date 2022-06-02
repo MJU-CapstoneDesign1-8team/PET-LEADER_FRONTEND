@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detect;
+package org.tensorflow.lite.examples.detect.yolov5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,13 +18,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.tensorflow.lite.examples.detect.R;
-import org.tensorflow.lite.examples.detect.customview.OverlayView;
-import org.tensorflow.lite.examples.detect.env.ImageUtils;
-import org.tensorflow.lite.examples.detect.env.Logger;
-import org.tensorflow.lite.examples.detect.env.Utils;
-import org.tensorflow.lite.examples.detect.tflite.Classifier;
-import org.tensorflow.lite.examples.detect.tflite.YoloV5Classifier;
-import org.tensorflow.lite.examples.detect.tracking.MultiBoxTracker;
+import org.tensorflow.lite.examples.detect.yolov5.customview.OverlayView;
+import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
+import org.tensorflow.lite.examples.detect.yolov5.env.Utils;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.YoloV5Classifier;
+import org.tensorflow.lite.examples.detect.yolov5.tracking.MultiBoxTracker;
 
 import java.io.IOException;
 import java.util.LinkedList;

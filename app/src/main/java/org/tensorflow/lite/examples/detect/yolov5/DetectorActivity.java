@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.tensorflow.lite.examples.detect;
+package org.tensorflow.lite.examples.detect.yolov5;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -36,15 +36,16 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.tensorflow.lite.examples.detect.customview.OverlayView;
-import org.tensorflow.lite.examples.detect.customview.OverlayView.DrawCallback;
-import org.tensorflow.lite.examples.detect.env.BorderedText;
-import org.tensorflow.lite.examples.detect.env.ImageUtils;
-import org.tensorflow.lite.examples.detect.env.Logger;
-import org.tensorflow.lite.examples.detect.tflite.Classifier;
-import org.tensorflow.lite.examples.detect.tflite.DetectorFactory;
-import org.tensorflow.lite.examples.detect.tflite.YoloV5Classifier;
-import org.tensorflow.lite.examples.detect.tracking.MultiBoxTracker;
+import org.tensorflow.lite.examples.detect.R;
+import org.tensorflow.lite.examples.detect.yolov5.customview.OverlayView;
+import org.tensorflow.lite.examples.detect.yolov5.customview.OverlayView.DrawCallback;
+import org.tensorflow.lite.examples.detect.yolov5.env.BorderedText;
+import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.DetectorFactory;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.YoloV5Classifier;
+import org.tensorflow.lite.examples.detect.yolov5.tracking.MultiBoxTracker;
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track

@@ -39,10 +39,10 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.tensorflow.lite.examples.detect.env.ImageUtils;
-import org.tensorflow.lite.examples.detect.tflite.Classifier;
-import org.tensorflow.lite.examples.detect.tflite.Classifier.Recognition;
-import org.tensorflow.lite.examples.detect.tflite.TFLiteObjectDetectionAPIModel;
+import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier.Recognition;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.TFLiteObjectDetectionAPIModel;
 
 /** Golden test for Object Detection Reference app. */
 @RunWith(AndroidJUnit4.class)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.tensorflow.lite.examples.detect;
+package org.tensorflow.lite.examples.detect.yolov5;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -57,8 +57,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import org.tensorflow.lite.examples.detect.env.ImageUtils;
-import org.tensorflow.lite.examples.detect.env.Logger;
+import org.tensorflow.lite.examples.detect.R;
+import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,

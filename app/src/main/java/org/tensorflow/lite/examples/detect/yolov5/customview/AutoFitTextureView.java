@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.tensorflow.lite.examples.detect.customview;
+package org.tensorflow.lite.examples.detect.yolov5.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;

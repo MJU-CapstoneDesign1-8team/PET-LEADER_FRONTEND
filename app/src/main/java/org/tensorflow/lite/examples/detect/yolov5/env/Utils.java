@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detect.env;
+package org.tensorflow.lite.examples.detect.yolov5.env;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;

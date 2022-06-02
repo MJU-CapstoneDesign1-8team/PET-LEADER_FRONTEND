@@ -1,4 +1,4 @@
-package com.example.petleader.FAQ
+package com.example.petleader.faq
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
+import org.tensorflow.lite.examples.detect.faq.FAQData
 
 
-class RVAdapter(val items: MutableList<FAQData>) : RecyclerView.Adapter<RVAdapter.Holder>() {
+class FaqRVAdapter(val items: MutableList<FAQData>) : RecyclerView.Adapter<FaqRVAdapter.Holder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

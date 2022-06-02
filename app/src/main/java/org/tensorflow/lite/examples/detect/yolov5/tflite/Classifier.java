@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detect.tflite;
+package org.tensorflow.lite.examples.detect.yolov5.tflite;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detect.tflite;
+package org.tensorflow.lite.examples.detect.yolov5.tflite;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -23,9 +23,9 @@ import android.util.Log;
 
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
-import org.tensorflow.lite.examples.detect.MainActivity;
-import org.tensorflow.lite.examples.detect.env.Logger;
-import org.tensorflow.lite.examples.detect.env.Utils;
+import org.tensorflow.lite.examples.detect.yolov5.MainActivity;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
+import org.tensorflow.lite.examples.detect.yolov5.env.Utils;
 import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.nnapi.NnApiDelegate;
 
@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-import static org.tensorflow.lite.examples.detect.env.Utils.expit;
+import static org.tensorflow.lite.examples.detect.yolov5.env.Utils.expit;
 
 
 /**

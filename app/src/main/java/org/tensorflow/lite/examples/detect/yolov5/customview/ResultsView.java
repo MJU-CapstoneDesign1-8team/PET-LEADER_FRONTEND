@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detect.customview;
+package org.tensorflow.lite.examples.detect.yolov5.customview;
 
 import java.util.List;
-import org.tensorflow.lite.examples.detect.tflite.Classifier.Recognition;
+import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier.Recognition;
 
 public interface ResultsView {
   public void setResults(final List<Recognition> results);

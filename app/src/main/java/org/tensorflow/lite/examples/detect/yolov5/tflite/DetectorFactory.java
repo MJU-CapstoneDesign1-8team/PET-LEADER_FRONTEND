@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detect.tflite;
+package org.tensorflow.lite.examples.detect.yolov5.tflite;
 
 import android.content.res.AssetManager;
 

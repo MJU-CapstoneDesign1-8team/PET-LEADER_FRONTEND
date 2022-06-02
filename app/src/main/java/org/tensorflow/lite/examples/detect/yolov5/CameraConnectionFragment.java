@@ -1,5 +1,5 @@
 
-package org.tensorflow.lite.examples.detect;
+package org.tensorflow.lite.examples.detect.yolov5;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -46,8 +46,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import org.tensorflow.lite.examples.detect.R;
-import org.tensorflow.lite.examples.detect.customview.AutoFitTextureView;
-import org.tensorflow.lite.examples.detect.env.Logger;
+import org.tensorflow.lite.examples.detect.yolov5.customview.AutoFitTextureView;
+import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
 
 @SuppressLint("ValidFragment")
 public class CameraConnectionFragment extends Fragment {

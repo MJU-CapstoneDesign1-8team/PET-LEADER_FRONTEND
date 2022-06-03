@@ -30,8 +30,11 @@
         android:theme="@style/AppTheme.ObjectDetection"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".onboard.OnBoardActivity"
+            android:exported="true" />
+        <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,9 +55,7 @@
             android:exported="true"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
-            tools:node="merge">
-
-        </activity>
+            tools:node="merge"></activity>
     </application>
 
 </manifest>

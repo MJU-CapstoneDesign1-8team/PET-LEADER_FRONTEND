@@ -60,6 +60,9 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'de.hdodenhof:circleimageview:3.1.0' //Circle ImageView
+
+    //dot-indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 repositories {
     mavenCentral()

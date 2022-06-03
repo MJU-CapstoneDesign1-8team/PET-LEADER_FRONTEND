@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import org.tensorflow.lite.examples.detect.R
+import org.tensorflow.lite.examples.detect.login.LoginActivity
+import org.tensorflow.lite.examples.detect.login.RegisterActivity
 
 class OnBoardActivity : AppCompatActivity() {
     var onBoardingViewPagerAdapter : OnBoardViewPagerAdapter? = null
@@ -25,9 +27,9 @@ class OnBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (restorePrefData()) {
-//            val i = Intent(applicationContext, LoginActivity::class.java)
-//            startActivity(i)
-//            finish()
+            val i = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(i)
+            finish()
         }
 
         setContentView(R.layout.activity_on_board)
@@ -49,15 +51,15 @@ class OnBoardActivity : AppCompatActivity() {
 
         startOnboardBtn?.setOnClickListener {
             savePrefDate()
-//            val i = Intent(applicationContext, RegisterActivity::class.java)
-//            startActivity(i)
+            val i = Intent(applicationContext, RegisterActivity::class.java)
+            startActivity(i)
         }
 
         loginOnboard?.setOnClickListener {
             savePrefDate()
-//            val i = Intent(applicationContext, LoginActivity::class.java)
-//            startActivity(i)
-//            finish()
+            val i = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(i)
+            finish()
         }
     }
 

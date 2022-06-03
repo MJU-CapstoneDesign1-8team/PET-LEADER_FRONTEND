@@ -18,6 +18,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
     <application
         android:allowBackup="false"
         android:debuggable="true"
@@ -28,7 +33,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ObjectDetection"
+        android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
+        <activity
+            android:name=".network.VerificationActivity"
+            android:exported="true" />
         <activity
             android:name=".onboard.OnBoardActivity"
             android:exported="true" />
@@ -61,7 +70,7 @@
             android:exported="true"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
-            tools:node="merge"></activity>
+            tools:node="merge" />
     </application>
 
 </manifest>

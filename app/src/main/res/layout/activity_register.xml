@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_green"
+    tools:context=".login.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        //로고
+        <ImageView
+            android:id="@+id/registerLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100dp"
+            android:src="@drawable/logo" />
+
+        //닉네임 입력칸
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerInputLayoutNick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            android:layout_gravity="center">
+            <EditText
+                android:id="@+id/registerEditTextNickname"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/interlight"
+                android:privateImeOptions="defaultInputmode=korean"
+                android:hint="닉네임"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //ID 입력칸
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerInputLayoutID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <EditText
+                android:id="@+id/registerEditTextID"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/interlight"
+                android:hint="ID"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //Password 입력칸
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registerInputLayoutPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <EditText
+                android:id="@+id/registerEditTextPassword"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/interlight"
+                android:hint="PASSWORD"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //회원가입 버튼
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/main_green"
+            android:fontFamily="@font/interextrabold"
+            android:text="회원가입"
+            android:textColor="@color/white"
+            android:textSize="22dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "939475245387",
+    "project_id": "pet-reder",
+    "storage_bucket": "pet-reder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939475245387:android:25f4f33454de072df970ce",
+        "android_client_info": {
+          "package_name": "org.tensorflow.lite.examples.detection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939475245387-kfresuj2fm2sgue1cvcumc146o4lngrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQf5fNEKPQ0gGo9NwQJxLDoRfi-lpy0pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939475245387-kfresuj2fm2sgue1cvcumc146o4lngrb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

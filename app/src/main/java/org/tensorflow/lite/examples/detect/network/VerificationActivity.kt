@@ -12,6 +12,10 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,6 +36,7 @@ class VerificationActivity : AppCompatActivity() {
         val testTxt = findViewById<TextView>(R.id.test)
         val btnVerify = findViewById<Button>(R.id.btn_verification)
 
+
         api.getTest().enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 testTxt.text = "Success"
@@ -51,6 +56,12 @@ class VerificationActivity : AppCompatActivity() {
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
         val call = service.postFile(userCd, image)!! //통신 API 패스 설정
+        val dialog = LoadingDialog(this)
+
+        // 다이얼로그 보여주기
+        dialog.show()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
 
         call.enqueue(object : Callback<FlaskDto> {
             override fun onResponse(call: Call<FlaskDto>, response: Response<FlaskDto>) {
@@ -80,16 +91,23 @@ class VerificationActivity : AppCompatActivity() {
                     result5.text = resultSafety.toString()
                     result6.text = resultSafetyImgPath
 
-
+                    // 다이얼로그 지우기
+                    dialog.dismiss()
 
 
                 } else {
                     Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
+
+                    // 다이얼로그 지우기
+                    dialog.dismiss()
                 }
             }
 
             override fun onFailure(call: Call<FlaskDto>, t: Throwable) {
                 Log.d("로그 ", t.message.toString())
+
+                // 다이얼로그 지우기
+                dialog.dismiss()
             }
         })
     }

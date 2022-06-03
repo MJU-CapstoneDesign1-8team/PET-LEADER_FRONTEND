@@ -7,77 +7,187 @@
         android:layout_height="match_parent"
         tools:context=".network.VerificationActivity">
 
-        <Button
-            android:id="@+id/btn_verification"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이미지 선택"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.077" />
+            app:layout_constraintVertical_bias="0.023">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/sd7"
+                android:gravity="center"
+                android:text="딥러닝"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="@font/sd7"
+                android:gravity="center"
+                android:text=" 분석"
+                android:textColor="#FFC674"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_verification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:fontFamily="@font/sd5"
+            android:text="이미지 선택"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.096" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_margin="10dp"
+            android:src="@color/selection_highlight"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_verification" />
 
         <TextView
             android:id="@+id/test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello World!"
+            android:textColor="@color/tfe_color_primary_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.907"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.039" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:fontFamily="@font/sd6"
+            android:text="▶ 분석 결과"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.185"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.976" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.842"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_verification">
+            app:layout_constraintTop_toBottomOf="@+id/btn_verification"
+            app:layout_constraintVertical_bias="0.971">
 
-            <TextView
-                android:id="@+id/result1"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="result 1" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/result2"
+                <Button
+                    android:id="@+id/breedGetBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sd5"
+                    android:text="견종"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/resultBreed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/sd6"
+                    android:text="NULL"
+                    android:textColor="@color/tfe_color_primary_dark"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="result 2" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/result3"
+                <Button
+                    android:id="@+id/muzzleGetBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sd5"
+                    android:text="입마개"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/resultMuzzle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/sd6"
+                    android:text="NULL"
+                    android:textColor="@color/tfe_color_primary_dark"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="result 3" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/result4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="result 4" />
+                <Button
+                    android:id="@+id/safetyGetBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sd5"
+                    android:text="목줄"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/result5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="result 5" />
-
-            <TextView
-                android:id="@+id/result6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="result 6" />
-
+                <TextView
+                    android:id="@+id/resultSafety"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/sd6"
+                    android:text="NULL"
+                    android:textColor="@color/tfe_color_primary_dark"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

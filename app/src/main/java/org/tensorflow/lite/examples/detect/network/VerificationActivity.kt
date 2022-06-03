@@ -3,24 +3,22 @@ package org.tensorflow.lite.examples.detect.network
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.databinding.ActivityVerificationBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +26,10 @@ import java.io.File
 
 class VerificationActivity : AppCompatActivity() {
     private val api = RetrofitClient.create(FlaskApi::class.java)
+    private var resultStringBreed = ""
+    private var resultStringMuzzle = ""
+    private var resultStringSafety = ""
+    private var networkCheck = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,9 @@ class VerificationActivity : AppCompatActivity() {
 
         val testTxt = findViewById<TextView>(R.id.test)
         val btnVerify = findViewById<Button>(R.id.btn_verification)
-
+        val btnBreed = findViewById<Button>(R.id.breedGetBtn)
+        val btnMuzzle = findViewById<Button>(R.id.muzzleGetBtn)
+        val btnSafety = findViewById<Button>(R.id.safetyGetBtn)
 
         api.getTest().enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -51,6 +55,22 @@ class VerificationActivity : AppCompatActivity() {
         btnVerify.setOnClickListener {
             getImage()
         }
+
+        btnBreed.setOnClickListener {
+            Log.e("resultStringBreed2", resultStringBreed)
+            getImageResult(resultStringBreed)
+        }
+
+        btnMuzzle.setOnClickListener {
+            Log.e("resultStringMuzzle2", resultStringMuzzle)
+            getImageResult(resultStringMuzzle)
+        }
+
+        btnSafety.setOnClickListener {
+            Log.e("resultStringSafety2", resultStringSafety)
+            getImageResult(resultStringSafety)
+        }
+
     }
 
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
@@ -76,20 +96,33 @@ class VerificationActivity : AppCompatActivity() {
                     val resultSafety = response.body()?.result_safety
                     val resultSafetyImgPath = response.body()?.result_safety_imgPath
 
+                    Log.e("resultBreedImgPath", resultBreedImgPath.toString())
+                    Log.e("resultMuzzleImgPath", resultMuzzleImgPath.toString())
+                    Log.e("resultSafetyImgPath", resultSafetyImgPath.toString())
 
-                    val result1 = findViewById<TextView>(R.id.result1)
-                    val result2 = findViewById<TextView>(R.id.result2)
-                    val result3 = findViewById<TextView>(R.id.result3)
-                    val result4 = findViewById<TextView>(R.id.result4)
-                    val result5 = findViewById<TextView>(R.id.result5)
-                    val result6 = findViewById<TextView>(R.id.result6)
+                    if (resultBreedImgPath != null) {
+                        resultStringBreed = resultBreedImgPath
+                    }
+                    if (resultMuzzleImgPath != null) {
+                        resultStringMuzzle = resultMuzzleImgPath
+                    }
+                    if (resultSafetyImgPath != null) {
+                        resultStringSafety = resultSafetyImgPath
+                    }
+
+                    val result1 = findViewById<TextView>(R.id.resultBreed)
+                    // val result2 = findViewById<TextView>(R.id.result2)
+                    val result3 = findViewById<TextView>(R.id.resultMuzzle)
+                    // val result4 = findViewById<TextView>(R.id.result4)
+                    val result5 = findViewById<TextView>(R.id.resultSafety)
+                    // val result6 = findViewById<TextView>(R.id.result6)
 
                     result1.text = resultBreed.toString()
-                    result2.text = resultBreedImgPath
+                    // result2.text = resultBreedImgPath
                     result3.text = resultMuzzle.toString()
-                    result4.text = resultMuzzleImgPath
+                    // result4.text = resultMuzzleImgPath
                     result5.text = resultSafety.toString()
-                    result6.text = resultSafetyImgPath
+                    // result6.text = resultSafetyImgPath
 
                     // 다이얼로그 지우기
                     dialog.dismiss()
@@ -111,6 +144,32 @@ class VerificationActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun getImageResult(resultString: String) {
+
+        api.getImage(resultString)
+            .enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val toString = response.body()?.byteStream()
+
+                val decodeStream = BitmapFactory.decodeStream(toString)
+                val image = findViewById<ImageView>(R.id.imageView2)
+                image.setImageBitmap(decodeStream)
+
+                networkCheck = "true"
+//                if (response.isSuccessful) {
+//                    Toast.makeText(applicationContext, "통신 성공", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
+//                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("로그 fail", t.message.toString())
+                networkCheck = ""
+            }
+        })
+    }
+
 
     var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {

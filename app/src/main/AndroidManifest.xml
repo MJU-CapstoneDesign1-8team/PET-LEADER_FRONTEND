@@ -30,6 +30,15 @@
         android:theme="@style/AppTheme.ObjectDetection"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
@@ -44,10 +53,7 @@
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
             tools:node="merge">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

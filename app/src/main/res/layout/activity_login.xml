@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_green"
+    tools:context=".login.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        //로고
+        <ImageView
+            android:id="@+id/loginLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100dp" />
+
+        //Id입력칸
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TextInputLayoutID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/loginEditTextID"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/interlight"
+                android:hint="ID"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //Password 입력칸
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/TextInputLayoutPassword">
+
+            <EditText
+                android:id="@+id/loginEditTextPassword"
+                android:inputType="textPassword"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/interlight"
+                android:hint="PASSWORD"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //로그인 버튼
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@color/main_green"
+            android:fontFamily="@font/interbold"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:textSize="22dp" />
+
+        //회원가입 유도 문장
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/makeAccountText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/intermedium"
+                android:text="아직 계정이 없으신가요?"
+                android:layout_marginRight="5dp"
+                android:textAlignment="textEnd"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/loginToJoin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/interextrabold"
+                android:text="회원가입"
+                android:textAlignment="textStart"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

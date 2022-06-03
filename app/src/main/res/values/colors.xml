@@ -12,4 +12,8 @@
     <color name="selection_highlight">#aaaaaa</color>
     <color name="selection_focus">#eeaa55</color>
     <color name="item_normal">#eeeeee</color>
+
+    <color name="main_green">#44803F</color>
+    <color name="background_green">#DDF4BE</color>
+
 </resources>

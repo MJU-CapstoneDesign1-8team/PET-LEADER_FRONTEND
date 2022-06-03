@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
+import org.tensorflow.lite.examples.detect.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +14,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val intent = Intent(this, OnBoardActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

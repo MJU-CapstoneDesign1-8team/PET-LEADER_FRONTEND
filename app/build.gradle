@@ -66,6 +66,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
+
+        //dot-indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 repositories {
     mavenCentral()

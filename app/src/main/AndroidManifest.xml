@@ -30,6 +30,9 @@
         android:theme="@style/AppTheme.ObjectDetection"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".onboard.OnBoardActivity"
+            android:exported="true" />
+        <activity
             android:name=".login.RegisterActivity"
             android:exported="false" />
         <activity
@@ -58,7 +61,7 @@
             android:exported="true"
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
-            tools:node="merge" />
+            tools:node="merge"></activity>
     </application>
 
 </manifest>

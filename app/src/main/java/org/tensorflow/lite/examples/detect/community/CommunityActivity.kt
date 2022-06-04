@@ -3,13 +3,13 @@ package org.tensorflow.lite.examples.detect.community
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.tensorflow.lite.examples.detect.R
+import org.tensorflow.lite.examples.detect.community.adapter.PostActivityStateAdapter
 
 class CommunityActivity : AppCompatActivity() {
-    private val tabTitles = arrayListOf("자유", "관리", "산책", "자랑")
+    private val tabTitles = arrayListOf(" 자유 ", " 관리 ", " 산책 ", " 자랑 ")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community)

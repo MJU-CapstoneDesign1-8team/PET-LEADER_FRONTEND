@@ -53,10 +53,5 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
-        //비밀번호 노출 토글
-        val showPassword = findViewById<TextInputLayout>(R.id.TextInputLayoutPassword)
-        showPassword.setPasswordVisibilityToggleEnabled(true)
-
     }
 }

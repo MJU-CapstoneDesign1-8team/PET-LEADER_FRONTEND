@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         camBtn.setOnClickListener {
-            val camIntent = Intent(this, DetectorActivity::class.java)
+            val camIntent = Intent(this, DetectChoiceActivity::class.java)
             Log.d("click", "detect")
             startActivity(camIntent)
         }

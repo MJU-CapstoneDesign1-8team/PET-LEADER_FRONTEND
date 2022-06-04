@@ -2,8 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="tfe_color_primary">#ffa800</color>
-    <color name="tfe_color_primary_dark">#ff6f00</color>
+    <color name="tfe_color_primary">#44803F</color>
+    <color name="tfe_color_primary_dark">#366732</color>
     <color name="tfe_color_accent">#425066</color>
 
     <color name="tfe_semi_transparent">#66000000</color>
@@ -19,12 +19,10 @@
     <color name="write_button">#B3D38A</color>//community write button
     <color name="dark_green">#366732</color>//profile etc..
     <color name="light_green">#EAFAE9</color>
-    <color name="main_green">#44803F</color>
     <color name="main_green2">#B3D38A</color>
     <color name="main_green3">#6DA849</color>
     <color name="main_green4">#C6E7C0</color>
-
     <color name="background2">#CBE4C9</color>
-    <color name="background_green">#DDF4BE</color>
+    <color name="background_green2">#DDF4BE</color>
 
 </resources>

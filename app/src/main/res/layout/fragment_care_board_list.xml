@@ -14,19 +14,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_communityListCare"
+                android:layout_marginBottom="65dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_appeal_board_write"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:backgroundTint="@color/main_green2"
-                android:src="@drawable/ic_baseline_edit_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

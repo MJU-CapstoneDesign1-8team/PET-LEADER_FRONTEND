@@ -1,11 +1,10 @@
 package org.tensorflow.lite.examples.detect.network
 
+import android.media.Image
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface FlaskApi {
     @Multipart
@@ -18,6 +17,12 @@ interface FlaskApi {
     // 테스트 통신
     @GET("/test")
     fun getTest(
-    ) : Call<String>
+    ): Call<String>
+
+
+    @POST("/downloads")
+    fun getImage(
+        @Body path : String
+    ):Call<ResponseBody>
 
 }

@@ -19,5 +19,8 @@
     <color name="write_button">#B3D38A</color>//community write button
     <color name="dark_green">#366732</color>//profile etc..
     <color name="light_green">#EAFAE9</color>
+    <color name="main_green">#44803F</color>
+    <color name="background2">#CBE4C9</color>
+    <color name="background_green">#DDF4BE</color>
 
 </resources>

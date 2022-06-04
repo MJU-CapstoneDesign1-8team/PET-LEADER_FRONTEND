@@ -1,5 +1,7 @@
 package org.tensorflow.lite.examples.detect.network
 
+import android.media.Image
+
 /*
  "result": "D:\\ProjectList\\Github\\GitHub\\PET-READER_BACKEND\\5.png",
     "result_breed": true,
@@ -16,5 +18,5 @@ data class FlaskDto(
     val result_muzzle : Boolean,
     val result_muzzle_imgPath : String,
     val result_safety : Boolean,
-    val result_safety_imgPath : String,
+    val result_safety_imgPath : String
 )

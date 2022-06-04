@@ -2,91 +2,104 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#EEEEEE"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-    <!--
-    OUTLINE
-    <CoordinatorLayout>
-        <AppbarLayout>
-               <CollapsingToolbarLayout>
-                    <ImageView/>
-                 <Toolbar/>
-                 <TabLayout/>
-            </CollapsingToolbarLayout>
-        </ AppbarLayout >
-       <ConstraintLayout>
-            < <ViewPager2/>
-       </ConstraintLayout>
-    </CoordinatorLayout>
-    -->
+    tools:context=".community.CommunityActivity">
+
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbar_homeFragment"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f00"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        app:liftOnScroll="true">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_homeFragment"
             android:layout_width="match_parent"
-            android:background="#ff0"
+            android:layout_height="80dp"
             android:fitsSystemWindows="true"
-            android:layout_height="410dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary">
+            android:text="test"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|snap|enterAlwaysCollapsed">
 
-            <TextView
-                android:id="@+id/ivHeader"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:fitsSystemWindows="true"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:layout_gravity="top"
-                android:layout_marginBottom="?attr/actionBarSize" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sd7"
+                    android:gravity="center"
+                    android:text="  PET "
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.65" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@android:color/transparent"
-                app:tabIconTint="#F57C00"
-                app:tabIndicatorColor="#F57C00"
-                android:translationY="-60dp"
-                app:tabIndicatorHeight="4dp"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="#F5F5F5"
-                app:tabTextColor="#FFE0B2" />
+                <TextView
+                    android:id="@+id/tv_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sd5"
+                    android:text="게시판"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.266"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.65" />
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_comm"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:tabIndicatorFullWidth="true"
+            app:tabGravity="center"
+            android:background="@color/white"
+            app:tabMode="scrollable"
+            app:tabIconTint="@color/main_green"
+            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorHeight="4dp"
+            app:tabSelectedTextColor="@color/main_green"
+            app:tabTextColor="@color/background2">
+
+        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_margin="10dp"
+        android:background="@color/main_green"
+        android:id="@+id/viewpage2_comm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/constraintLayout"
-        app:behavior_overlapTop="60dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager2"
-            android:layout_width="match_parent"
-            android:background="#fff"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_height="match_parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--                    android:id="@+id/floatingActionButton_write"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="bottom|right"-->
+    <!--                    android:layout_margin="20dp"-->
+    <!--                    android:backgroundTint="@color/main_color1"-->
+    <!--                    android:clickable="true"-->
+    <!--                    app:srcCompat="@drawable/ic_board" />-->
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

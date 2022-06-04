@@ -1,51 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- FAQ 화면 -->
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clipToOutline="true"
-    android:orientation="vertical" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:id="@+id/faq_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="30dp"
-        android:text="FAQ"
-        android:textSize="36sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/interbold"
-        />
+    <include layout="@layout/content_faq" />
 
-    <TextView
-        android:id="@+id/faq_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="35dp"
-        android:text="자주 쓰는 질문"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/interextrabold"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/faq_list"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/main_green3"
+        app:fabAlignmentMode="end"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
-</LinearLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/main_green2"
+        android:src="@drawable/ic_baseline_reply_24"
+        app:layout_anchor="@id/bottomAppBar" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

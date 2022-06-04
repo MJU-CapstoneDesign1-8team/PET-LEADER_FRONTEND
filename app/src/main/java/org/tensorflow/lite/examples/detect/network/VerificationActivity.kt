@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -36,7 +37,7 @@ class VerificationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_verification)
 
         val testTxt = findViewById<TextView>(R.id.test)
-        val btnVerify = findViewById<Button>(R.id.btn_verification)
+        val btnVerify = findViewById<FloatingActionButton>(R.id.fab)
         val btnBreed = findViewById<Button>(R.id.breedGetBtn)
         val btnMuzzle = findViewById<Button>(R.id.muzzleGetBtn)
         val btnSafety = findViewById<Button>(R.id.safetyGetBtn)

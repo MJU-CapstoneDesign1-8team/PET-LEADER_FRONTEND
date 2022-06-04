@@ -35,7 +35,7 @@
                 android:fontFamily="@font/sd7"
                 android:gravity="center"
                 android:text=" 분석"
-                android:textColor="#FFC674"
+                android:textColor="@color/main_green3"
                 android:textSize="30sp"
                 android:textStyle="bold" />
         </LinearLayout>

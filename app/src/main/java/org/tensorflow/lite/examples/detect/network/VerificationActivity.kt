@@ -7,19 +7,28 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.RelativeCornerSize
+import com.google.android.material.shape.RoundedCornerTreatment
+import kotlinx.android.synthetic.main.activity_home.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
+import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +44,8 @@ class VerificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verification)
+        val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
+        setSupportActionBar(bottomAppBar)
 
         val testTxt = findViewById<TextView>(R.id.test)
         val btnVerify = findViewById<FloatingActionButton>(R.id.fab)
@@ -71,6 +82,14 @@ class VerificationActivity : AppCompatActivity() {
             Log.e("resultStringSafety2", resultStringSafety)
             getImageResult(resultStringSafety)
         }
+
+        // 하단 바
+        val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(RoundedCornerTreatment()).setTopRightCornerSize(RelativeCornerSize(0.4f))
+            .setTopLeftCorner(RoundedCornerTreatment()).setTopLeftCornerSize(RelativeCornerSize(0.4f))
+            .build()
 
     }
 
@@ -206,4 +225,27 @@ class VerificationActivity : AppCompatActivity() {
 
         return result!!
     }
+
+    override fun onStart() {
+        // 애니메이션 작동
+        super.onStart()
+        Handler().postDelayed({
+            fab.show()
+        }, 450)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> { // 홈으로 돌아가기
+                fab.hide(AnimationFab.addVisibilityChanged)
+                Handler().postDelayed({
+                    finish()
+                }, 300)
+            }
+        }
+        return true
+    }
+
+
+
 }

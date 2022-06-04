@@ -34,6 +34,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".community.BoardCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".community.BoardDetailActivity"
             android:exported="false" />
         <activity

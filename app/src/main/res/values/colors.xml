@@ -13,6 +13,12 @@
     <color name="selection_focus">#eeaa55</color>
     <color name="item_normal">#eeeeee</color>
 
+    //main green
+    <color name="main_green">#44803F</color>//navigation detect button
+    <color name="background_green">#CBE4C9</color>//navigation bar
+    <color name="write_button">#B3D38A</color>//community write button
+    <color name="dark_green">#366732</color>//profile etc..
+    <color name="light_green">#EAFAE9</color>
     <color name="main_green">#44803F</color>
     <color name="main_green2">#B3D38A</color>
     <color name="main_green3">#6DA849</color>

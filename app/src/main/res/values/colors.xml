@@ -14,6 +14,7 @@
     <color name="item_normal">#eeeeee</color>
 
     <color name="main_green">#44803F</color>
+    <color name="background2">#CBE4C9</color>
     <color name="background_green">#DDF4BE</color>
 
 </resources>

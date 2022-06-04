@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.detect.community.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
@@ -43,8 +44,12 @@ class CareBoardRVAdapter(private val communityList: MutableList<CommunityData>) 
         private val title: TextView = itemView.findViewById(R.id.tv_free_list_item_title)
         private val nickname: TextView = itemView.findViewById(R.id.tv_free_list_item_writerNickname)
         private val date: TextView = itemView.findViewById(R.id.tv_free_list_item_date)
+        private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
+        private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
 
         fun bindItems(item: CommunityData){
+            img.setImageResource(R.drawable.veterinary)
+            mainText.text = "관리"
             title.text = item.title
             nickname.text = item.nickname
             date.text = item.time

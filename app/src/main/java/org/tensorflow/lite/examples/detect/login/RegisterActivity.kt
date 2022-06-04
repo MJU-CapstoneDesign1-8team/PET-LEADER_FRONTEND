@@ -51,15 +51,11 @@ class RegisterActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                            Toast.makeText(baseContext, "failed.",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(baseContext, "형식이 올바르지 않습니다.",Toast.LENGTH_SHORT).show()
                     }
                 }
 
 
         }
-
-        //비밀번호 노출 토글
-        val showPassword = findViewById<TextInputLayout>(R.id.registerInputLayoutPassword)
-        showPassword.setPasswordVisibilityToggleEnabled(true)
     }
 }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_green"
+    android:background="@color/background2"
     tools:context=".login.LoginActivity">
 
 
@@ -30,13 +30,14 @@
             android:id="@+id/TextInputLayoutID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_green"
             android:layout_gravity="center">
 
             <EditText
                 android:id="@+id/loginEditTextID"
                 android:layout_width="250dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@color/background2"
                 android:fontFamily="@font/interlight"
                 android:hint="ID"
                 android:textSize="20sp" />
@@ -44,16 +45,19 @@
 
         //Password 입력칸
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TextInputLayoutPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_green"
             android:layout_gravity="center"
-            android:id="@+id/TextInputLayoutPassword">
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/loginEditTextPassword"
-                android:inputType="textPassword"
                 android:layout_width="250dp"
-                android:layout_height="45dp"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"
+                android:background="@color/background2"
                 android:layout_gravity="center"
                 android:fontFamily="@font/interlight"
                 android:hint="PASSWORD"
@@ -64,7 +68,7 @@
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/main_green"

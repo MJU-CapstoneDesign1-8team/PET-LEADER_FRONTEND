@@ -34,6 +34,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".community.BoardDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".community.CommunityActivity"
             android:exported="true" />
         <activity
@@ -42,9 +45,6 @@
         <activity
             android:name=".onboard.OnBoardActivity"
             android:exported="true" />
-        <activity
-            android:name=".community.CommunityActivity"
-            android:exported="false" />
         <activity
             android:name=".login.RegisterActivity"
             android:exported="false" />

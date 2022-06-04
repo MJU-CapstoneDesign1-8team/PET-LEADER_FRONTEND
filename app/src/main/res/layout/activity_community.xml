@@ -68,15 +68,16 @@
             android:id="@+id/tabLayout_comm"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:tabTextAppearance="@style/tab_text"
             app:tabIndicatorFullWidth="true"
             app:tabGravity="center"
             android:background="@color/white"
             app:tabMode="scrollable"
             app:tabIconTint="@color/main_green"
-            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorColor="@color/main_green3"
             app:tabIndicatorHeight="4dp"
-            app:tabSelectedTextColor="@color/main_green"
-            app:tabTextColor="@color/background2">
+            app:tabSelectedTextColor="@color/main_green3"
+            app:tabTextColor="@color/main_green4">
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -84,7 +85,6 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:layout_margin="10dp"
-        android:background="@color/main_green"
         android:id="@+id/viewpage2_comm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

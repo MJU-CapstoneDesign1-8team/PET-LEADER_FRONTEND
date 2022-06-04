@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/tfe_color_accent</item>
     </style>
 
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/sd5</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+
 </resources>

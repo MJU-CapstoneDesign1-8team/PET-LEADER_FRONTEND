@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import org.tensorflow.lite.examples.detect.camera.ImageActivity
+import org.tensorflow.lite.examples.detect.camera.VerifyImageActivity
 import org.tensorflow.lite.examples.detect.camera.VideoActivity
 import org.tensorflow.lite.examples.detect.yolov5.DetectorActivity
 
@@ -24,7 +25,7 @@ class DetectChoiceActivity : AppCompatActivity() {
             startActivity(videoIntent)
         }
         imageBtn.setOnClickListener{
-            val imageIntent = Intent(this, ImageActivity::class.java)
+            val imageIntent = Intent(this, VerifyImageActivity::class.java)
             startActivity(imageIntent)
         }
         realtimeBtn.setOnClickListener{

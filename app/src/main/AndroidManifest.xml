@@ -39,6 +39,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".camera.VerifyVideoActivity"
+            android:exported="true" />
+        <activity
             android:name=".camera.VerifyImageActivity"
             android:exported="true" />
         <activity

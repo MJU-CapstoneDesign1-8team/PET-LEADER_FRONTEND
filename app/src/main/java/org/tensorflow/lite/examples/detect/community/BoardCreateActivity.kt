@@ -1,8 +1,9 @@
 package org.tensorflow.lite.examples.detect.community
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
@@ -25,7 +26,6 @@ class BoardCreateActivity : AppCompatActivity() {
         var userNick = "unknown"
 
         val database = Firebase.database
-        val postDB = database.getReference("posts")
         val nickDB = database.getReference("Nickname")
 
         val postTitle = findViewById<EditText>(R.id.boardEditTitle)
@@ -47,22 +47,26 @@ class BoardCreateActivity : AppCompatActivity() {
             }
         })
 
-        postDB.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (post in snapshot.children) {
-                    Log.d("post database", post.toString())
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+
+        val spinner: Spinner = findViewById(R.id.select_tap_spinner)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.tab_list,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
 
         submitBtn.setOnClickListener {
+            val tab_name = spinner.selectedItem.toString();
             val titleName = postTitle.text.toString()
             val contentName = postContent.text.toString()
             val postDate = SimpleDateFormat("yyyy-MM-dd, hh:mm:ss").format(Date()).toString()
+
+
+            val postDB = database.getReference(PostTab.getTab(tab_name).name)
 
             val postModel = PostData(
                 title = titleName,
@@ -71,6 +75,7 @@ class BoardCreateActivity : AppCompatActivity() {
                 time = postDate,
                 nickname = userNick)
             postDB.push().setValue(postModel)
+            finish()
         }
     }
 }

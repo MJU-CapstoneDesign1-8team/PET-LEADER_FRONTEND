@@ -4,6 +4,6 @@ data class PostData(
     val title: String = "",
     val content: String = "",
     val uid: String = "",
+    val nickname: String = "",
     val time: String = "",
-    val nickname: String = ""
 )

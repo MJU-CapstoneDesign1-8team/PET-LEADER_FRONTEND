@@ -8,5 +8,13 @@ class BoardDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_detail)
+
+//        if (intent.hasExtra("nameKey")) {
+//            textView.text = intent.getStringExtra("nameKey")
+//
+//        } else {
+//            Toast.makeText(this, "전달된 이름이 없습니다", Toast.LENGTH_SHORT).show()
+//        }
+
     }
 }

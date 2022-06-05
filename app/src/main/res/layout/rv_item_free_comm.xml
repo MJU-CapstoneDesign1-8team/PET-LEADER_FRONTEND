@@ -95,7 +95,7 @@
                     android:fontFamily="@font/sd5"/>
 
                 <TextView
-                    android:id="@+id/tv_free_list_item_uid"
+                    android:id="@+id/tv_free_list_item_post_id"
                     android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

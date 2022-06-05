@@ -63,8 +63,7 @@ class BoardCreateActivity : AppCompatActivity() {
             val tab_name = spinner.selectedItem.toString();
             val titleName = postTitle.text.toString()
             val contentName = postContent.text.toString()
-            val postDate = SimpleDateFormat("yyyy-MM-dd, hh:mm:ss").format(Date()).toString()
-
+            val postDate = SimpleDateFormat("yyyy-MM-dd\nhh:mm:ss").format(Date()).toString()
 
             val postDB = database.getReference(PostTab.getTab(tab_name).name)
 

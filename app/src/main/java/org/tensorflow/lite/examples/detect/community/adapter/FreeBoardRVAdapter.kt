@@ -43,10 +43,10 @@ class FreeBoardRVAdapter(private val communityList: MutableList<PostData>) :
     inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.tv_free_list_item_title)
         private val nickname: TextView = itemView.findViewById(R.id.tv_free_list_item_writerNickname)
-        private val uid: TextView = itemView.findViewById(R.id.tv_free_list_item_uid)
         private val date: TextView = itemView.findViewById(R.id.tv_free_list_item_date)
         private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
         private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
+        private val postId: TextView = itemView.findViewById(R.id.tv_free_list_item_post_id)
 
         fun bindItems(item: PostData){
             //img.setImageDrawable(R.drawable.veterinary)
@@ -56,7 +56,7 @@ class FreeBoardRVAdapter(private val communityList: MutableList<PostData>) :
             title.text = item.title
             nickname.text = item.nickname
             date.text = item.time
-            uid.text = item.uid
+            postId.text = item.postId
         }
     }
 

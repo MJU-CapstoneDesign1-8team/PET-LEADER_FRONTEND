@@ -46,13 +46,17 @@ class CareBoardRVAdapter(private val communityList: MutableList<PostData>) :
         private val date: TextView = itemView.findViewById(R.id.tv_free_list_item_date)
         private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
         private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
+        private val postId: TextView = itemView.findViewById(R.id.tv_free_list_item_post_id)
 
         fun bindItems(item: PostData){
-            img.setImageResource(R.drawable.veterinary)
+            //img.setImageDrawable(R.drawable.veterinary)
+
+            img.setImageResource(R.drawable.pawprint)
             mainText.text = "관리"
             title.text = item.title
             nickname.text = item.nickname
             date.text = item.time
+            postId.text = item.postId
         }
     }
 }

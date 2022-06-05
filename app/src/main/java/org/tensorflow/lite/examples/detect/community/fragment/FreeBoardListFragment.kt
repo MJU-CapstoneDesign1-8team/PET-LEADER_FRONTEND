@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class FreeBoardListFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (postModel in snapshot.children) {
                     val post = postModel.getValue(PostData::class.java)
+                    post?.postId = postModel.key!!
                     if (communityDataList.contains(post)) {
                         continue
                     }
@@ -65,9 +67,12 @@ class FreeBoardListFragment : Fragment() {
         freeBoardRVAdapter.setItemClickListener(object : FreeBoardRVAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
 
-                val uid: TextView = v.findViewById(R.id.tv_free_list_item_uid)
+                val postId: TextView = v.findViewById(R.id.tv_free_list_item_post_id)
+
                 val intent = Intent(activity, BoardDetailActivity::class.java)
-                intent.putExtra("post_id", uid.text)
+                intent.putExtra("post_id", postId.text as String)
+                intent.putExtra("post_tab", PostTab.FREE.name)
+//                Log.d("Intent", postId.text as String)
                 startActivity(intent)
             }
         })

@@ -30,7 +30,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:fontFamily="@font/interbold"
-            android:text="dfadfasdfsadfsdfdsdfasdfsdfsdfsdfsdf"
+            android:text="Not Found"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>

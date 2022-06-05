@@ -95,6 +95,13 @@
                     android:fontFamily="@font/sd5"/>
 
                 <TextView
+                    android:id="@+id/tv_free_list_item_post_id"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text=".???"/>
+
+                <TextView
                     android:id="@+id/tv_free_list_item_date"
                     android:text="22/10/12"
                     android:layout_marginStart="12dp"

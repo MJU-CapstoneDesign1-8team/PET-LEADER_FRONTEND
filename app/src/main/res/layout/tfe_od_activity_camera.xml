@@ -18,9 +18,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#00000000">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +30,8 @@
         android:orientation="vertical">
 
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -40,7 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@color/tfe_semi_transparent">
+            android:background="@color/tfe_semi_transparent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -48,9 +54,56 @@
                 android:src="@drawable/tfl2_logo" />
         </androidx.appcompat.widget.Toolbar>
 
-    </RelativeLayout>
+
+        <ListView
+            android:id="@+id/model_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/detect_breed_button"
+            android:src="@drawable/detect_breed_button"
+            android:scaleType="fitCenter"
+            android:background="@color/tfe_semi_transparent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/detect_leash_button"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/detect_leash_button"
+            android:src="@drawable/detect_leash_button"
+            android:scaleType="fitCenter"
+            android:background="@color/tfe_semi_transparent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/detect_muzzle_button"
+            android:src="@drawable/detect_muzzle_button"
+            android:scaleType="fitCenter"
+            android:background="@color/tfe_semi_transparent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="150dp"
+            app:layout_constraintLeft_toRightOf="@id/detect_leash_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
+        android:visibility="gone"
         android:id="@+id/bottom_sheet_layout"
         layout="@layout/tfe_od_layout_bottom_sheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

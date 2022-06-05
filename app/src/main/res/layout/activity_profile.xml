@@ -67,7 +67,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_logo"
-        android:src="@drawable/profile_img"
+        android:src="@drawable/profile_example"
         app:civ_border_color="@color/white"
         app:civ_border_width="5dp"
         android:elevation="10dp"

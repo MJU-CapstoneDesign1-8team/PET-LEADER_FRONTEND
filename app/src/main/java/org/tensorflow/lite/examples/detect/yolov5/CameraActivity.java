@@ -46,6 +46,8 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -149,8 +151,10 @@ public abstract class CameraActivity extends AppCompatActivity
     gestureLayout = findViewById(R.id.gesture_layout);
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
     bottomSheetArrowImageView = findViewById(R.id.bottom_sheet_arrow);
-    modelView = findViewById((R.id.model_list));
 
+
+
+    modelView = findViewById((R.id.model_list));
     modelStrings = getModelStrings(getAssets(), ASSET_PATH);
     modelView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     ArrayAdapter<String> modelAdapter =
@@ -166,6 +170,13 @@ public abstract class CameraActivity extends AppCompatActivity
                 updateActiveModel();
               }
             });
+
+
+    //Model Change Button
+    ImageButton breedModel = findViewById((R.id.detect_breed_button));
+    ImageButton leashModel = findViewById((R.id.detect_leash_button));
+    ImageButton muzzleModel = findViewById((R.id.detect_muzzle_button));
+
 
     ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
     vto.addOnGlobalLayoutListener(

@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.community.CommunityData
+import org.tensorflow.lite.examples.detect.community.PostData
 
-class ShowBoardRVAdapter(private val communityList: MutableList<CommunityData>) :
+class ShowBoardRVAdapter(private val communityList: MutableList<PostData>) :
     RecyclerView.Adapter<ShowBoardRVAdapter.CustomViewHolder>()  {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,13 +46,17 @@ class ShowBoardRVAdapter(private val communityList: MutableList<CommunityData>) 
         private val date: TextView = itemView.findViewById(R.id.tv_free_list_item_date)
         private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
         private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
+        private val postId: TextView = itemView.findViewById(R.id.tv_free_list_item_post_id)
 
-        fun bindItems(item: CommunityData){
-            img.setImageResource(R.drawable.animal_care)
+        fun bindItems(item: PostData){
+            //img.setImageDrawable(R.drawable.veterinary)
+
+            img.setImageResource(R.drawable.pawprint)
             mainText.text = "자랑"
             title.text = item.title
             nickname.text = item.nickname
             date.text = item.time
+            postId.text = item.postId
         }
     }
 }

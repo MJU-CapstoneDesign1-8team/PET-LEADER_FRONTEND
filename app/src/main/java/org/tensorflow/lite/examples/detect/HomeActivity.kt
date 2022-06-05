@@ -16,7 +16,6 @@ import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
 import kotlinx.android.synthetic.main.activity_community.*
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_home.fab
 import org.tensorflow.lite.examples.detect.community.CommunityActivity
 import org.tensorflow.lite.examples.detect.faq.FaqActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity

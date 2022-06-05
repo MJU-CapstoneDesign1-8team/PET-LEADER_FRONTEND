@@ -35,17 +35,15 @@ class CommunityActivity : AppCompatActivity() {
         val createBoard = findViewById<FloatingActionButton>(R.id.fab)
         //val appbar = findViewById<AppBarLayout>(R.id.appbar)
 
-        // 뷰 페이지
+        // 각 게시판별 탭 Fragment 설정
         viewPager2.adapter = PostActivityStateAdapter(this)
-
 
         // Tablayout에 문자 추가
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = tabTitles[position]
-
         }.attach()
 
-        // 글 생성
+        // 게시글 작성 버튼
         createBoard.setOnClickListener {
             fab.hide(AnimationFab.addVisibilityChanged)
             Handler().postDelayed({
@@ -54,7 +52,7 @@ class CommunityActivity : AppCompatActivity() {
             }, 300)
         }
 
-        // 하단 바
+        // 네비게이션 바
         val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
         bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
             .toBuilder()

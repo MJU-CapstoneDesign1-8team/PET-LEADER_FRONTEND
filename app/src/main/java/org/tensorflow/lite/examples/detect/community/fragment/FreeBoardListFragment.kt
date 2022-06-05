@@ -8,16 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
-import org.tensorflow.lite.examples.detect.community.CommunityData
+import org.tensorflow.lite.examples.detect.community.PostData
 import org.tensorflow.lite.examples.detect.community.adapter.FreeBoardRVAdapter
 import org.tensorflow.lite.examples.detect.databinding.FragmentFreeBoardListBinding
 
 class FreeBoardListFragment : Fragment() {
     private lateinit var binding: FragmentFreeBoardListBinding
     private lateinit var freeBoardRVAdapter: FreeBoardRVAdapter
-    private val communityDataList = mutableListOf<CommunityData>()
+    private val communityDataList = mutableListOf<PostData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,13 +27,17 @@ class FreeBoardListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_free_board_list, container, false)
 
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        val database = Firebase.database
+        val myRef = database.getReference("message")
+        myRef.setValue("Hello, World!")
+
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 123123", "dasdasd","dasdasd","123123", "dsadasd"))
 
         // recyclerview 연결
         freeBoardRVAdapter = FreeBoardRVAdapter(communityDataList)

@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.community.CommunityData
+import org.tensorflow.lite.examples.detect.community.PostData
 
-class FreeBoardRVAdapter(private val communityList: MutableList<CommunityData>) :
+class FreeBoardRVAdapter(private val communityList: MutableList<PostData>) :
     RecyclerView.Adapter<FreeBoardRVAdapter.CustomViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -47,7 +47,7 @@ class FreeBoardRVAdapter(private val communityList: MutableList<CommunityData>) 
         private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
         private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
 
-        fun bindItems(item: CommunityData){
+        fun bindItems(item: PostData){
             //img.setImageDrawable(R.drawable.veterinary)
 
             img.setImageResource(R.drawable.pawprint)

@@ -10,17 +10,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
-import org.tensorflow.lite.examples.detect.community.CommunityData
-import org.tensorflow.lite.examples.detect.community.adapter.ShowBoardRVAdapter
+import org.tensorflow.lite.examples.detect.community.PostData
 import org.tensorflow.lite.examples.detect.community.adapter.WalkBoardRVAdapter
-import org.tensorflow.lite.examples.detect.databinding.FragmentShowBoardListBinding
 import org.tensorflow.lite.examples.detect.databinding.FragmentWalkBoardListBinding
 
 
 class WalkBoardListFragment : Fragment() {
     private lateinit var binding : FragmentWalkBoardListBinding
     private lateinit var walkBoardRVAdapter: WalkBoardRVAdapter
-    private val communityDataList = mutableListOf<CommunityData>()
+    private val communityDataList = mutableListOf<PostData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,13 +26,13 @@ class WalkBoardListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_walk_board_list, container, false)
 
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
-        communityDataList.add(CommunityData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
+        communityDataList.add(PostData("제목 nnnnnn", "dasdasd","dasdasd","123123", "dsadasd"))
 
         // recyclerview 연결
         walkBoardRVAdapter = WalkBoardRVAdapter(communityDataList)

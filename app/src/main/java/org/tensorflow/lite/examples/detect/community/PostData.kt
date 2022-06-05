@@ -1,6 +1,6 @@
 package org.tensorflow.lite.examples.detect.community
 
-data class CommunityData(
+data class PostData(
     val title: String = "",
     val content: String = "",
     val uid: String = "",

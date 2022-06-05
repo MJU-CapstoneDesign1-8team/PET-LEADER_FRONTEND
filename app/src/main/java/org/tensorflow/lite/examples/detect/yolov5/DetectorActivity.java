@@ -149,6 +149,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         final int deviceIndex = deviceView.getCheckedItemPosition();
         String threads = threadsTextView.getText().toString().trim();
         final int numThreads = Integer.parseInt(threads);
+        Log.d("model", "\nmodelIndex:" + modelIndex + "\ndeviceIndex" + deviceIndex);
 
         handler.post(() -> {
             if (modelIndex == currentModel && deviceIndex == currentDevice
@@ -213,6 +214,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             frameToCropTransform.invert(cropToFrameTransform);
         });
     }
+
+
 
     @Override
     protected void processImage() {

@@ -16,14 +16,11 @@ class PostActivityStateAdapter(fragmentActivity: FragmentActivity) :
     override fun createFragment(position: Int): Fragment {
         var returnFragment : Fragment? = null
 
-        if(position == 0){
-            returnFragment = FreeBoardListFragment()
-        }else if(position == 1){
-            returnFragment = CareBoardListFragment()
-        }else if(position == 2){
-            returnFragment = WalkBoardListFragment()
-        }else if(position == 3){
-            returnFragment = ShowBoardListFragment()
+        when (position) {
+            0 -> returnFragment = FreeBoardListFragment()
+            1 -> returnFragment = CareBoardListFragment()
+            2 -> returnFragment = WalkBoardListFragment()
+            3 -> returnFragment = ShowBoardListFragment()
         }
         return returnFragment!!
     }

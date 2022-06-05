@@ -40,7 +40,6 @@ class RegisterActivity : AppCompatActivity() {
             val database = Firebase.database
             val nick = database.getReference("Nickname")
 
-
             auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {

@@ -21,10 +21,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
-
 
     <application
         android:allowBackup="false"
@@ -38,6 +38,12 @@
         android:theme="@style/AppTheme.ObjectDetection"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
+        <activity
+            android:name=".camera.VerifyImageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".camera.DeepLearningResultActivity"
+            android:exported="false" />
         <activity
             android:name=".camera.ImageActivity"
             android:exported="false" />
@@ -92,8 +98,6 @@
             android:label="@string/tfe_od_app_name"
             android:screenOrientation="portrait"
             tools:node="merge" />
-
-
     </application>
 
 </manifest>

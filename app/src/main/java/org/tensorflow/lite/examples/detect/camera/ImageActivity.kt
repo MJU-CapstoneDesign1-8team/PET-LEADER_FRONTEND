@@ -26,7 +26,7 @@ class ImageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image)
         val cameraBtn = findViewById<Button>(R.id.captureBtn)
-        imageView = findViewById(R.id.ImageView)
+        imageView = findViewById(R.id.imageView2)
 
         cameraBtn.setOnClickListener{
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

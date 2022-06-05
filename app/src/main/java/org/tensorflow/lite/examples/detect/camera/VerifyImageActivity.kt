@@ -1,10 +1,12 @@
-package org.tensorflow.lite.examples.detect.network
+package org.tensorflow.lite.examples.detect.camera
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -28,22 +30,30 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.camera.DeepLearningResultActivity
+import org.tensorflow.lite.examples.detect.network.FlaskApi
+import org.tensorflow.lite.examples.detect.network.FlaskDto
+import org.tensorflow.lite.examples.detect.network.LoadingDialog
+import org.tensorflow.lite.examples.detect.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class VerificationActivity : AppCompatActivity() {
+class VerifyImageActivity : AppCompatActivity() {
     private val api = RetrofitClient.create(FlaskApi::class.java)
     private var resultStringBreed = ""
     private var resultStringMuzzle = ""
     private var resultStringSafety = ""
     private var networkCheck = ""
 
+    var imageView: ImageView? = null
+    var imageUri: Uri? = null
+    val camRequestId = 1222
+    lateinit var bodyImage : MultipartBody.Part
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verification)
+        setContentView(R.layout.activity_verify_image)
         val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
         setSupportActionBar(bottomAppBar)
 
@@ -52,7 +62,34 @@ class VerificationActivity : AppCompatActivity() {
         val btnBreed = findViewById<Button>(R.id.breedGetBtn)
         val btnMuzzle = findViewById<Button>(R.id.muzzleGetBtn)
         val btnSafety = findViewById<Button>(R.id.safetyGetBtn)
+        val cameraBtn = findViewById<FloatingActionButton>(R.id.fab)
+        val serverBtn = findViewById<Button>(R.id.toServerBtn)
+        imageView = findViewById(R.id.imageView2)
 
+        // 하단 바
+        val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(RoundedCornerTreatment()).setTopRightCornerSize(RelativeCornerSize(0.4f))
+            .setTopLeftCorner(RoundedCornerTreatment()).setTopLeftCornerSize(RelativeCornerSize(0.4f))
+            .build()
+
+
+        // 카메라 클릭 시
+        cameraBtn.setOnClickListener{
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val imagePath = createImage()
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imagePath)
+            startActivityForResult(intent, camRequestId)
+        }
+
+        // 서버로 보내기
+        serverBtn.setOnClickListener {
+            sendFile("file",bodyImage)
+        }
+
+
+        // 통신 테스트
         api.getTest().enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 testTxt.text = "Success"
@@ -64,38 +101,81 @@ class VerificationActivity : AppCompatActivity() {
 
         })
 
-        btnVerify.setOnClickListener {
-            getImage()
-        }
 
+
+        // 견종 결과 이미지로 확인
         btnBreed.setOnClickListener {
+            Log.e("resultStringBreed2", resultStringBreed)
             val intent = Intent(this, DeepLearningResultActivity::class.java)
             intent.putExtra("resultStringBreedUri", resultStringBreed)
             startActivity(intent)
-//            Log.e("resultStringBreed2", resultStringBreed)
-//            getImageResult(resultStringBreed)
         }
 
+        // 입마개 결과 이미지로 확인
         btnMuzzle.setOnClickListener {
             Log.e("resultStringMuzzle2", resultStringMuzzle)
-            getImageResult(resultStringMuzzle)
+            val intent = Intent(this, DeepLearningResultActivity::class.java)
+            intent.putExtra("resultStringMuzzleUri", resultStringMuzzle)
+            startActivity(intent)
         }
 
+        // 목줄 결과 이미지로 확인
         btnSafety.setOnClickListener {
             Log.e("resultStringSafety2", resultStringSafety)
-            getImageResult(resultStringSafety)
+            val intent = Intent(this, DeepLearningResultActivity::class.java)
+            intent.putExtra("resultStringSafetyUri", resultStringSafety)
+            startActivity(intent)
         }
-
-        // 하단 바
-        val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
-        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
-            .toBuilder()
-            .setTopRightCorner(RoundedCornerTreatment()).setTopRightCornerSize(RelativeCornerSize(0.4f))
-            .setTopLeftCorner(RoundedCornerTreatment()).setTopLeftCornerSize(RelativeCornerSize(0.4f))
-            .build()
 
     }
 
+    fun sendFirstSetting(uri : Uri) {
+        val file = File(absolutelyPath(uri, this))
+        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        val bodyImage = MultipartBody.Part.createFormData("file", file.name, requestFile)
+    }
+
+    // 카메라 실행
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == camRequestId) {
+            if (resultCode == RESULT_OK) {
+                imageView!!.setImageURI(imageUri)
+
+                val uri : Uri? = imageUri
+                val file = File(absolutelyPath(uri, this))
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                bodyImage = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                Log.d("TAG",file.name)
+
+                //sendFile("file",bodyImage)
+            }
+        }
+    }
+
+    // 이미지 생성
+    private fun createImage(): Uri? {
+        var uri: Uri? = null
+        val resolver = contentResolver
+        uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            // DCIM
+            // picture
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
+        val imgName = System.currentTimeMillis().toString()
+        val contentValues = ContentValues()
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, "$imgName.jpg")
+        contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + "My Images/")
+        val finalUri = resolver.insert(uri, contentValues)
+        imageUri = finalUri
+        return finalUri
+    }
+
+
+    // 서버로 이미지 보내기
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
         val call = service.postFile(userCd, image)!! //통신 API 패스 설정
@@ -168,32 +248,35 @@ class VerificationActivity : AppCompatActivity() {
         })
     }
 
+
+    // 이미지 결과값 받기
     private fun getImageResult(resultString: String) {
 
         api.getImage(resultString)
             .enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val toString = response.body()?.byteStream()
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    val toString = response.body()?.byteStream()
 
-                val decodeStream = BitmapFactory.decodeStream(toString)
-                val image = findViewById<ImageView>(R.id.imageView2)
-                image.setImageBitmap(decodeStream)
+                    val decodeStream = BitmapFactory.decodeStream(toString)
+                    val image = findViewById<ImageView>(R.id.imageView2)
+                    image.setImageBitmap(decodeStream)
 
-                networkCheck = "true"
+                    networkCheck = "true"
 //                if (response.isSuccessful) {
 //                    Toast.makeText(applicationContext, "통신 성공", Toast.LENGTH_SHORT).show()
 //                } else {
 //                    Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
 //                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("로그 fail", t.message.toString())
-                networkCheck = ""
-            }
-        })
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("로그 fail", t.message.toString())
+                    networkCheck = ""
+                }
+            })
     }
 
 
+    // 파일 관련
     var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val imagePath = result.data!!.data
@@ -207,6 +290,8 @@ class VerificationActivity : AppCompatActivity() {
             sendFile("file",body)
         }
     }
+
+    // 이미지 앱 선택
     fun getImage(){
         Log.d("mediaFile","사진변경 호출")
         val chooserIntent = Intent(Intent.ACTION_CHOOSER)
@@ -248,7 +333,4 @@ class VerificationActivity : AppCompatActivity() {
         }
         return true
     }
-
-
-
 }

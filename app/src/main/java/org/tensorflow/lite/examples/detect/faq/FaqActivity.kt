@@ -12,7 +12,6 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
 import kotlinx.android.synthetic.main.activity_faq.*
-import kotlinx.android.synthetic.main.activity_home.*
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
 
@@ -36,10 +35,11 @@ class FaqActivity : AppCompatActivity() {
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
 
+
         // 뒤로가기 (홈)
         val backBtn = findViewById<FloatingActionButton>(R.id.fab)
-        backBtn.setOnClickListener {
-            fab.hide(AnimationFab.addVisibilityChanged)
+        fab.setOnClickListener {
+            backBtn.hide(AnimationFab.addVisibilityChanged)
             Handler().postDelayed({
                 finish()
             }, 300)

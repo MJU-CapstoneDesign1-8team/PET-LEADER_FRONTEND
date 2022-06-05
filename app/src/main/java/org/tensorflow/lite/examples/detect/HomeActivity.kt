@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import org.tensorflow.lite.examples.detect.community.CommunityActivity
 import org.tensorflow.lite.examples.detect.faq.FaqActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity
+import kotlinx.android.synthetic.main.activity_home.fab
 import org.tensorflow.lite.examples.detect.yolov5.DetectorActivity
 
 class HomeActivity : AppCompatActivity() {

@@ -22,7 +22,7 @@ class BoardCreateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_board_create)
 
         val auth = Firebase.auth
-        val userUID = auth.currentUser!!.uid
+        val userUID = auth.currentUser?.uid
         var userNick = "unknown"
 
         val database = Firebase.database
@@ -67,12 +67,14 @@ class BoardCreateActivity : AppCompatActivity() {
 
             val postDB = database.getReference(PostTab.getTab(tab_name).name)
 
-            val postModel = PostData(
-                title = titleName,
-                content = contentName,
-                uid = userUID,
-                time = postDate,
-                nickname = userNick)
+            val postModel = userUID?.let { it1 ->
+                PostData(
+                    title = titleName,
+                    content = contentName,
+                    uid = it1,
+                    time = postDate,
+                    nickname = userNick)
+            }
             postDB.push().setValue(postModel)
             finish()
         }

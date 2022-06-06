@@ -139,13 +139,13 @@ public abstract class CameraActivity extends AppCompatActivity
     deviceView.setAdapter(deviceAdapter);
     deviceView.setItemChecked(defaultDeviceIndex, true);
     currentDevice = defaultDeviceIndex;
-    deviceView.setOnItemClickListener(
-            new AdapterView.OnItemClickListener() {
-              @Override
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                updateActiveModel();
-              }
-            });
+//    deviceView.setOnItemClickListener(
+//            new AdapterView.OnItemClickListener() {
+//              @Override
+//              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                updateActiveModel();
+//              }
+//            });
 
     bottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
     gestureLayout = findViewById(R.id.gesture_layout);
@@ -163,20 +163,37 @@ public abstract class CameraActivity extends AppCompatActivity
     modelView.setAdapter(modelAdapter);
     modelView.setItemChecked(defaultModelIndex, true);
     currentModel = defaultModelIndex;
-    modelView.setOnItemClickListener(
-            new AdapterView.OnItemClickListener() {
-              @Override
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                updateActiveModel();
-              }
-            });
+//    modelView.setOnItemClickListener(
+//            new AdapterView.OnItemClickListener() {
+//              @Override
+//              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                updateActiveModel();
+//              }
+//            });
 
 
     //Model Change Button
     ImageButton breedModel = findViewById((R.id.detect_breed_button));
     ImageButton leashModel = findViewById((R.id.detect_leash_button));
     ImageButton muzzleModel = findViewById((R.id.detect_muzzle_button));
-
+    breedModel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        updateActiveModel(0);
+      }
+    });
+    leashModel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        updateActiveModel(1);
+      }
+    });
+    muzzleModel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        updateActiveModel(2);
+      }
+    });
 
     ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
     vto.addOnGlobalLayoutListener(
@@ -620,7 +637,7 @@ public abstract class CameraActivity extends AppCompatActivity
     inferenceTimeTextView.setText(inferenceTime);
   }
 
-  protected abstract void updateActiveModel();
+  protected abstract void updateActiveModel(int m_idx);
   protected abstract void processImage();
 
   protected abstract void onPreviewSizeChosen(final Size size, final int rotation);

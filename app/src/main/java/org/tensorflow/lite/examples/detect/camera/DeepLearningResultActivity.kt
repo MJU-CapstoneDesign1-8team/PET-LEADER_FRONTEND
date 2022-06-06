@@ -54,6 +54,7 @@ class DeepLearningResultActivity : AppCompatActivity() {
                     }
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.d("로그 fail", t.message.toString())
+                        getImageResult(resultStringBreed)
                     }
                 })
         }
@@ -62,6 +63,28 @@ class DeepLearningResultActivity : AppCompatActivity() {
         saveBtn.setOnClickListener {
             imgSaveOnClick(BitmapImg)
         }
+    }
+
+    // 이미지 결과값 받기
+    private fun getImageResult(resultString: String) {
+        val img = findViewById<ImageView>(R.id.resultBreedImg)
+        api.getImage(resultString)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    val toString = response.body()?.byteStream()
+
+                    val decodeStream = BitmapFactory.decodeStream(toString)
+                    BitmapImg = decodeStream
+                    img.setImageBitmap(decodeStream)
+
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("로그 fail", t.message.toString())
+
+                    // 실패시 다시 통신
+                    getImageResult(resultString!!)
+                }
+            })
     }
 
 

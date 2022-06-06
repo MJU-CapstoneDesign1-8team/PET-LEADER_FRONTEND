@@ -7,6 +7,7 @@ import android.os.Handler
 import org.tensorflow.lite.examples.detect.community.CommunityActivity
 import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
 import org.tensorflow.lite.examples.detect.login.LoginActivity
+import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

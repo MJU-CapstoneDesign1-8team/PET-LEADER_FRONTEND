@@ -41,8 +41,7 @@ class CareBoardListFragment : Fragment() {
         postDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (postModel in snapshot.children) {
-                    val post: PostData = postModel.getValue(PostData::class.java)!!
-                    post?.postId = postModel.key!!
+                    val post = postModel.getValue(PostData::class.java)
                     if (communityDataList.contains(post)) {
                         continue
                     }

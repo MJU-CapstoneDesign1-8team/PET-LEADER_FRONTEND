@@ -40,6 +40,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
@@ -53,16 +54,6 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/tfl2_logo" />
         </androidx.appcompat.widget.Toolbar>
-
-
-        <ListView
-            android:id="@+id/model_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="150dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/detect_breed_button"

@@ -143,9 +143,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
     }
 
-    protected void updateActiveModel() {
+    protected void updateActiveModel(int m_idx) {
         // Get UI information before delegating to background
-        final int modelIndex = modelView.getCheckedItemPosition();
+        final int modelIndex = m_idx;
         final int deviceIndex = deviceView.getCheckedItemPosition();
         String threads = threadsTextView.getText().toString().trim();
         final int numThreads = Integer.parseInt(threads);

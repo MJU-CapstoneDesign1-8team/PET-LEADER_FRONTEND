@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/main_green3"
+        app:backgroundTint="@color/main_green"
         app:fabAlignmentMode="end"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|center"
@@ -29,7 +29,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/main_green2"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/main_green1"
         android:src="@drawable/ic_baseline_reply_24"
         app:layout_anchor="@id/bottomAppBar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

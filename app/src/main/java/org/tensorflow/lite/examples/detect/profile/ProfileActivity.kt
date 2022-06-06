@@ -49,7 +49,6 @@ class ProfileActivity : AppCompatActivity() {
         val profileSettingBtn = findViewById<ImageView>(R.id.profileSettingBtn)
         val logoutBtn = findViewById<TextView>(R.id.profileLogoutBtn)
         val userNickname = findViewById<TextView>(R.id.userNickname)
-        val ProfileImage = findViewById<CircleImageView>(R.id.profile_logo)
         var nickname = "unknown"
         val auth = Firebase.auth
         val myUid = auth.currentUser?.uid
@@ -95,8 +94,6 @@ class ProfileActivity : AppCompatActivity() {
             val settingIntent = Intent(this, ProfileSettingActivity::class.java )
             startActivity(settingIntent)
         }
-
-        Glide.with(this).load(storageReference).into(ProfileImage)
 
         //로그아웃
         logoutBtn.setOnClickListener{

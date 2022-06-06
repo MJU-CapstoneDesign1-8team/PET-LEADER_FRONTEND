@@ -31,12 +31,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                />
 
             <ImageView
                 android:id="@+id/tv_verify_img"
-                android:src="@drawable/analysis"
-                android:layout_width="80dp"
+                android:src="@drawable/file"
+                android:layout_width="60dp"
                 android:layout_height="80dp"
                 />
 

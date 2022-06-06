@@ -17,6 +17,9 @@ class InfoAdapter(val items: MutableList<InfoData>) : RecyclerView.Adapter<InfoA
 
     override fun onBindViewHolder(holder: InfoAdapter.Holder, position: Int) {
         holder.bindItems(items[position])
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it, position, items[position])
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -26,7 +29,7 @@ class InfoAdapter(val items: MutableList<InfoData>) : RecyclerView.Adapter<InfoA
             val infoTitle = itemView.findViewById<TextView>(R.id.info_title)
             val infoContent = itemView.findViewById<TextView>(R.id.info_content)
             infoTitle.text = item.title
-            infoContent.text = item.content
+            infoContent.text = item.simpleInfo
 
             val readMoreButton = itemView.findViewById<ImageView>(R.id.info_read_more)
             readMoreButton.setOnClickListener {
@@ -37,4 +40,14 @@ class InfoAdapter(val items: MutableList<InfoData>) : RecyclerView.Adapter<InfoA
             }
         }
     }
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int, info: InfoData)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+
+    private lateinit var itemClickListener : OnItemClickListener
 }

@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.PostData
+import org.tensorflow.lite.examples.detect.community.PostTab
 
 class CommunityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val title: TextView = itemView.findViewById(R.id.tv_free_list_item_title)
@@ -17,7 +18,13 @@ class CommunityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindItems(item: PostData){
         //img.setImageDrawable(R.drawable.veterinary)
-        img.setImageResource(R.drawable.pawprint)
+        img.setImageResource(when (item.tab) {
+            PostTab.FREE -> R.drawable.board
+            PostTab.CARE -> R.drawable.veterinary
+            PostTab.WALK -> R.drawable.dog
+            PostTab.SHOW -> R.drawable.pawprint
+            else -> R.drawable.pawprint
+        })
         mainText.text = item.tab.tabName
         title.text = item.title
         nickname.text = item.nickname

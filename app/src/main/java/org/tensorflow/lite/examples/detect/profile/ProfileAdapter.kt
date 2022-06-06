@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.PostData
+import org.tensorflow.lite.examples.detect.community.PostTab
 
 class ProfileAdapter(val items: MutableList<PostData>) : RecyclerView.Adapter<ProfileAdapter.Holder>() {
     private lateinit var itemClickListener : OnItemClickListener
@@ -44,11 +45,18 @@ class ProfileAdapter(val items: MutableList<PostData>) : RecyclerView.Adapter<Pr
 
         fun bindItems(item: PostData){
             //img.setImageDrawable(R.drawable.veterinary)
-            img.setImageResource(R.drawable.pawprint)
+
+            img.setImageResource(when (item.tab) {
+                PostTab.FREE -> R.drawable.board
+                PostTab.CARE -> R.drawable.veterinary
+                PostTab.WALK -> R.drawable.dog
+                PostTab.SHOW -> R.drawable.pawprint
+                else -> R.drawable.pawprint
+            })
             mainText.text = item.tab.tabName
             title.text = item.title
             nickname.text = item.nickname
-            date.text = item.time
+            date.text = item.time.split('\n')[0]
             postId.text = item.postId
         }
     }

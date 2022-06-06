@@ -57,6 +57,9 @@
             android:name=".camera.VideoActivity"
             android:exported="true" />
         <activity
+            android:name=".profile.ProfileSettingActivity"
+            android:exported="true" />
+        <activity
             android:name=".community.BoardCreateActivity"
             android:exported="false" />
         <activity
@@ -91,7 +94,7 @@
         </activity>
         <activity
             android:name=".profile.ProfileActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".faq.FaqActivity"
             android:exported="false" />

@@ -28,14 +28,23 @@ class ProfileActivity : AppCompatActivity() {
     private val context: Context = this
     private lateinit var profileAdapter: ProfileAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val database = Firebase.database
+        val userInfo = FirebaseDatabase.getInstance().reference
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
 
-
-
+        val profileSettingBtn = findViewById<ImageView>(R.id.profileSettingBtn)
+        val logoutBtn = findViewById<TextView>(R.id.profileLogoutBtn)
+        val userNickname = findViewById<TextView>(R.id.userNickname)
+        var nickname = "unknown"
         val auth = Firebase.auth
         val myUid = auth.currentUser?.uid
         Log.d("Profile Post", "$myUid")
@@ -48,7 +57,28 @@ class ProfileActivity : AppCompatActivity() {
         val showDB = database.getReference(PostTab.SHOW.name)
 
         val tabList = listOf<String>(PostTab.FREE.name, PostTab.CARE.name, PostTab.WALK.name, PostTab.SHOW.name)
+        
+      
+        //프로필 세팅 화면으로 감
+        profileSettingBtn.setOnClickListener{
 
+            val settingIntent = Intent(this, ProfileSettingActivity::class.java )
+            startActivity(settingIntent)
+        }
+
+        //로그아웃
+        logoutBtn.setOnClickListener{
+            if(currentUser != null) {
+                auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+                Toast.makeText(baseContext, "로그아웃 성공", Toast.LENGTH_LONG).show()
+            }
+            else{
+                Toast.makeText(baseContext, "로그인을 해주세요", Toast.LENGTH_LONG).show()
+            }
+        }
         val dbList = tabList.map { tab ->
             database.getReference(tab).orderByChild("uid").equalTo(myUid)
         }

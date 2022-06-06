@@ -1,6 +1,7 @@
 package org.tensorflow.lite.examples.detect.community
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
@@ -58,24 +59,30 @@ class BoardCreateActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-
+        //게시글 작성 버튼
         submitBtn.setOnClickListener {
-            val tab_name = spinner.selectedItem.toString();
+            val postTab = PostTab.getTab(spinner.selectedItem.toString())
             val titleName = postTitle.text.toString()
             val contentName = postContent.text.toString()
             val postDate = SimpleDateFormat("yyyy-MM-dd\nhh:mm:ss").format(Date()).toString()
 
-            val postDB = database.getReference(PostTab.getTab(tab_name).name)
+            val postDB = database.getReference(postTab.name)
 
             val postModel = userUID?.let { it1 ->
                 PostData(
+                    tab = postTab,
                     title = titleName,
                     content = contentName,
                     uid = it1,
                     time = postDate,
                     nickname = userNick)
             }
-            postDB.push().setValue(postModel)
+
+            val postRef = postDB.push()
+            postModel?.postId = postRef.key.toString() //랜덤 생성된 postId를 postModel에 저장
+            postRef.setValue(postModel)
+
+            Log.d("post_id", "${postModel?.postId}")
             finish()
         }
     }

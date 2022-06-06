@@ -41,7 +41,6 @@ class ShowBoardListFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (postModel in snapshot.children) {
                     val post = postModel.getValue(PostData::class.java)
-                    post?.postId = postModel.key!!
                     if (communityDataList.contains(post)) {
                         continue
                     }

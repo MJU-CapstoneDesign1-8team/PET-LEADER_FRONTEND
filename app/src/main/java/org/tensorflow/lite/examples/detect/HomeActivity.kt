@@ -20,6 +20,7 @@ import org.tensorflow.lite.examples.detect.community.CommunityActivity
 import org.tensorflow.lite.examples.detect.faq.FaqActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_home.fab
+import org.tensorflow.lite.examples.detect.info.InfoActivity
 import org.tensorflow.lite.examples.detect.yolov5.DetectorActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -59,8 +60,8 @@ class HomeActivity : AppCompatActivity() {
         infoBtn.setOnClickListener {
             fab.hide(AnimationFab.addVisibilityChanged)
             Handler().postDelayed({
-    //            val infoIntent = Intent(this, ProfileActivity::class.java)
-    //            startActivity(profileIntent)
+                val infoIntent = Intent(this, InfoActivity::class.java)
+                startActivity(infoIntent)
                 Log.d("click", "info")
             }, 300)
         }

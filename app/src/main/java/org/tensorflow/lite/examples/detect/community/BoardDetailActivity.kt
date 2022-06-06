@@ -26,7 +26,7 @@ class BoardDetailActivity : AppCompatActivity() {
 
         val postId: String? = intent.getStringExtra("post_id")
         val postTab: String? = intent.getStringExtra("post_tab")
-        Log.d("Detaila", "${postId}")
+        Log.d("Detail post Id", "${postId}")
 
         val database = Firebase.database
         val postDB = database.getReference(postTab!!)
@@ -35,7 +35,7 @@ class BoardDetailActivity : AppCompatActivity() {
         postDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (postModel in snapshot.children) {
-//                    Log.d("Detail postmodel", "${postModel.key == postId}")
+                    Log.d("Detail postmodel", "${postModel.key == postId}")
                     if (postModel.key == postId) {
                         post = postModel.getValue(PostData::class.java)
 
@@ -51,10 +51,7 @@ class BoardDetailActivity : AppCompatActivity() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
-
-
     }
 }

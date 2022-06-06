@@ -21,13 +21,12 @@ import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
 import org.tensorflow.lite.examples.detect.community.PostData
 import org.tensorflow.lite.examples.detect.community.PostTab
 import org.tensorflow.lite.examples.detect.login.LoginActivity
-import java.util.*
 
 
 class ProfileActivity : AppCompatActivity() {
     private val postList = mutableListOf<PostData>()
     private val context: Context = this
-    private lateinit var profileAdapter: ProfileAdapter
+    private lateinit var profilePostAdapter: ProfilePostAdapter
 
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +91,7 @@ class ProfileActivity : AppCompatActivity() {
                             postList.add(post)
                         }
                     }
-                    profileAdapter.notifyDataSetChanged()
+                    profilePostAdapter.notifyDataSetChanged()
                 }
                 override fun onCancelled(error: DatabaseError) {
                 }
@@ -101,13 +100,13 @@ class ProfileActivity : AppCompatActivity() {
 
         // recyclerview 연결
         val profileView = findViewById<RecyclerView>(R.id.profile_list)
-        profileAdapter = ProfileAdapter(postList)
-        profileView.adapter = profileAdapter
+        profilePostAdapter = ProfilePostAdapter(postList)
+        profileView.adapter = profilePostAdapter
         profileView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
 
         // 게시글 클릭 시 상세 게시글 페이지 전환
-        profileAdapter.setItemClickListener(object : ProfileAdapter.OnItemClickListener {
+        profilePostAdapter.setItemClickListener(object : ProfilePostAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val postId: TextView = v.findViewById(R.id.tv_free_list_item_post_id)
 

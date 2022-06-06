@@ -10,15 +10,15 @@ import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.PostData
 import org.tensorflow.lite.examples.detect.community.PostTab
 
-class ProfileAdapter(val items: MutableList<PostData>) : RecyclerView.Adapter<ProfileAdapter.Holder>() {
+class ProfilePostAdapter(val items: MutableList<PostData>) : RecyclerView.Adapter<ProfilePostAdapter.Holder>() {
     private lateinit var itemClickListener : OnItemClickListener
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):ProfileAdapter.Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):ProfilePostAdapter.Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_free_comm, parent, false)
         return Holder(view)
     }
 
-    override fun onBindViewHolder(holder: ProfileAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: ProfilePostAdapter.Holder, position: Int) {
         holder.bindItems(items[position])
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)

@@ -10,16 +10,16 @@ import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.PostData
 
 class WalkBoardRVAdapter(private val communityList: MutableList<PostData>) :
-    RecyclerView.Adapter<WalkBoardRVAdapter.CustomViewHolder>()  {
+    RecyclerView.Adapter<CommunityViewHolder>()  {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): WalkBoardRVAdapter.CustomViewHolder {
+    ): CommunityViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_free_comm, parent, false)
-        return CustomViewHolder(view)
+        return CommunityViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: WalkBoardRVAdapter.CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommunityViewHolder, position: Int) {
         holder.bindItems(communityList[position])
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
@@ -38,25 +38,4 @@ class WalkBoardRVAdapter(private val communityList: MutableList<PostData>) :
     }
 
     private lateinit var itemClickListener : OnItemClickListener
-
-
-    inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val title: TextView = itemView.findViewById(R.id.tv_free_list_item_title)
-        private val nickname: TextView = itemView.findViewById(R.id.tv_free_list_item_writerNickname)
-        private val date: TextView = itemView.findViewById(R.id.tv_free_list_item_date)
-        private val img : ImageView = itemView.findViewById(R.id.rv_imageView)
-        private val mainText : TextView = itemView.findViewById(R.id.rv_textMain)
-        private val postId: TextView = itemView.findViewById(R.id.tv_free_list_item_post_id)
-
-        fun bindItems(item: PostData){
-            //img.setImageDrawable(R.drawable.veterinary)
-
-            img.setImageResource(R.drawable.pawprint)
-            mainText.text = "산책"
-            title.text = item.title
-            nickname.text = item.nickname
-            date.text = item.time
-            postId.text = item.postId
-        }
-    }
 }

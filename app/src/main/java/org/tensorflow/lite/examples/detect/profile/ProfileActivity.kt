@@ -11,11 +11,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_profile.*
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
 import org.tensorflow.lite.examples.detect.community.PostData
@@ -28,27 +34,67 @@ class ProfileActivity : AppCompatActivity() {
     private val postList = mutableListOf<PostData>()
     private val context: Context = this
     private lateinit var profileAdapter: ProfileAdapter
-
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val database = Firebase.database
-        val userInfo = FirebaseDatabase.getInstance().reference
+        val nickInfo = database.getReference("Nickname")
+        val profileInfo = database.getReference("Profile")
         val currentUser = Firebase.auth.currentUser
+        val storageReference = Firebase.storage.reference
+        val storage = FirebaseStorage.getInstance()
+        val mountainRef = storage.reference.child("profileImage")
 
+        auth = Firebase.auth
 
+        val userUID = auth.currentUser?.uid
+        var userNick = "unknown"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        nickInfo.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                var nickData: Map<String, String> = snapshot.value as Map<String, String>
+                userNick = when (nickData[userUID]) {
+                    null -> "???"
+                    else -> nickData[userUID]!!
+                }
+                userNickname.text = userNick
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+
+        profileInfo.child(auth.currentUser?.uid.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(dataModel in snapshot.children){
+                    }
+
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
 
 
         val profileSettingBtn = findViewById<ImageView>(R.id.profileSettingBtn)
         val logoutBtn = findViewById<TextView>(R.id.profileLogoutBtn)
         val userNickname = findViewById<TextView>(R.id.userNickname)
+        val ProfileImage = findViewById<CircleImageView>(R.id.profile_logo)
         var nickname = "unknown"
         val auth = Firebase.auth
         val myUid = auth.currentUser?.uid
         Log.d("Profile Post", "$myUid")
-
 
 
         val freeDB = database.getReference(PostTab.FREE.name)
@@ -57,14 +103,17 @@ class ProfileActivity : AppCompatActivity() {
         val showDB = database.getReference(PostTab.SHOW.name)
 
         val tabList = listOf<String>(PostTab.FREE.name, PostTab.CARE.name, PostTab.WALK.name, PostTab.SHOW.name)
-        
-      
+
+
+
         //프로필 세팅 화면으로 감
         profileSettingBtn.setOnClickListener{
 
             val settingIntent = Intent(this, ProfileSettingActivity::class.java )
             startActivity(settingIntent)
         }
+
+        Glide.with(this).load(storageReference).into(ProfileImage)
 
         //로그아웃
         logoutBtn.setOnClickListener{

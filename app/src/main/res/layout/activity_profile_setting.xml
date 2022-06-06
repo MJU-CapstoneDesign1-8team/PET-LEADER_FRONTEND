@@ -95,7 +95,6 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/sd7"
-            android:text="닉네임"
             android:textColor="@color/main_green4"
             android:textSize="26sp" />
 

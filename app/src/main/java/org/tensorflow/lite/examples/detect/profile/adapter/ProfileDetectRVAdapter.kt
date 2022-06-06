@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detect.profile
+package org.tensorflow.lite.examples.detect.profile.adapter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,16 +14,16 @@ import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.camera.VerityData
 import java.io.File
 
-class ProfileResultRVAdapter(val items  : MutableList<VerityData>) : RecyclerView.Adapter<ProfileResultRVAdapter.Holder>() {
+class ProfileDetectRVAdapter(val items  : MutableList<VerityData>) : RecyclerView.Adapter<ProfileDetectRVAdapter.Holder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ProfileResultRVAdapter.Holder {
+    ): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_result_verity, parent, false)
         return Holder(view)
     }
 
-    override fun onBindViewHolder(holder: ProfileResultRVAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bindItems(items[position])
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)

@@ -88,10 +88,5 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

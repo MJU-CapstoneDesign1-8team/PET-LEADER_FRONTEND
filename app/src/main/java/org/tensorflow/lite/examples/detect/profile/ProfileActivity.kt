@@ -14,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.PostData
+import org.tensorflow.lite.examples.detect.community.PostTab
 import org.tensorflow.lite.examples.detect.login.LoginActivity
 import org.tensorflow.lite.examples.detect.profile.adapter.ProfileFeatureAdapter
 import org.tensorflow.lite.examples.detect.profile.adapter.ProfilePostAdapter
@@ -61,7 +62,6 @@ class ProfileActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "로그인을 해주세요", Toast.LENGTH_LONG).show()
             }
         }
-
 
         val viewPager2 = findViewById<ViewPager2>(R.id.profile_viewpage)
         viewPager2.adapter = ProfileFeatureAdapter(this)

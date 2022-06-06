@@ -1,11 +1,13 @@
 package org.tensorflow.lite.examples.detect.profile
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -14,30 +16,37 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.camera.VerityData
 import org.tensorflow.lite.examples.detect.community.PostData
+import java.io.File
 
 class ProfileResultActivity : AppCompatActivity() {
     private lateinit var profileResultRVAdapter: ProfileResultRVAdapter
     private val verityDataList = mutableListOf<VerityData>()
 
-    var myUid : String? = ""
+    var myUid : String? = null
     val auth = Firebase.auth
     private val database = Firebase.database
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_result)
 
         val rv = findViewById<RecyclerView>(R.id.rv_result_verify)
 
-        myUid = auth.currentUser?.uid
+//        myUid = auth.currentUser?.uid
+        myUid = "HozgblgIB1ZAoIAoOdimrm009zj2"
+        if (myUid == null) {
+            Toast.makeText(baseContext, "계정을 확인하지 못했습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
         // recyclerview 연결
         profileResultRVAdapter = ProfileResultRVAdapter(verityDataList)
         rv.adapter = profileResultRVAdapter
         rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
 
         // 데이터 가져오기
         getVerityData()
@@ -45,12 +54,6 @@ class ProfileResultActivity : AppCompatActivity() {
         // 클릭시 이벤트
         profileResultRVAdapter.setItemClickListener(object : ProfileResultRVAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-//                val postId: TextView = v.findViewById(R.id.tv_free_list_item_post_id)
-//                val intent = Intent(activity, BoardDetailActivity::class.java)
-//                intent.putExtra("post_id", postId.text as String)
-//                intent.putExtra("post_tab", PostTab.CARE.name)
-//                Log.d("Intent", postId.text as String)
-//                startActivity(intent)
                 Log.e("test click", "test click")
             }
 
@@ -58,21 +61,20 @@ class ProfileResultActivity : AppCompatActivity() {
     }
 
     fun getVerityData() {
-        Log.e("myUid", myUid!!)
+        Log.d("myUid", myUid!!)
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                for(dataModel in snapshot.children){
-                    Log.d("getVerityData dataModel",dataModel.toString())
-                    val item = dataModel.getValue()
-                    //val item = dataModel.getValue(VerityData::class.java)
-
-                    //val item_uid = dataModel.getValue("uid")
-                    Log.e("getVerityData item ", item.toString())
-                    //Log.e("getVerityData item ", item_uid.toString())
-                    //verityDataList.add(VerityData())
+                snapshot.children.forEach {
+                    Log.d("getVerityData dataModel", it.toString())
+                    val item : VerityData? = it.getValue(VerityData::class.java)
+                    Log.d("getVerityData item ", item.toString())
+                    if (item == null) {
+                        return@forEach
+                    }
+                    verityDataList.add(item!!)
                 }
-
 //                verityDataList.reverse()
                 profileResultRVAdapter.notifyDataSetChanged()
                 Log.d("getVerityData",verityDataList.toString())

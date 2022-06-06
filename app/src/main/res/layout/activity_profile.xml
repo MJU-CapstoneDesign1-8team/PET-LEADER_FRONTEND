@@ -118,7 +118,15 @@
         app:layout_constraintTop_toBottomOf="@id/profile_logo"
         />
 
-    
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/profile_viewpage"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_data_type"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/profile_list"

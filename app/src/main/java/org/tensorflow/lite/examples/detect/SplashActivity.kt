@@ -9,6 +9,7 @@ import org.tensorflow.lite.examples.detect.info.InfoActivity
 import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
 import org.tensorflow.lite.examples.detect.login.LoginActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity
+import org.tensorflow.lite.examples.detect.profile.ProfileResultActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            val intent = Intent(this, InfoActivity::class.java)
+            val intent = Intent(this, ProfileResultActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

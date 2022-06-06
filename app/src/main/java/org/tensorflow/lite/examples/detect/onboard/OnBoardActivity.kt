@@ -40,9 +40,9 @@ class OnBoardActivity : AppCompatActivity() {
         loginOnboard = findViewById(R.id.onboard_login)
 
         val onBoardingData: MutableList<OnBoardingData> = ArrayList()
-        onBoardingData.add(OnBoardingData("맹견에 대한 정보를 한눈에!", "공원에 갈때마다 걱정되는 당신.. \n 개만 보면 무섭다고요? \n 목줄을 안찬 강아지가 있다면?", R.drawable.onboard11, "맹견/정보"))
+        onBoardingData.add(OnBoardingData("목줄과 입마개는 필수", "방금 지나간 그 강아지 입마개 해야되나? \n목줄을 안한채로 위험하게 뛰어다닐때  \n실시간으로 분석된 영상을 만나보세요!", R.drawable.onboard11, "실시간 탐지"))
         onBoardingData.add(OnBoardingData("맹견에 대한 정보를 한눈에!", "공원에 갈때마다 걱정되는 당신.. \n 개만 보면 무섭다고요? \n 목줄을 안찬 강아지가 있다면?", R.drawable.onboard22, "맹견/정보"))
-        onBoardingData.add(OnBoardingData("맹견에 대한 정보를 한눈에!", "공원에 갈때마다 걱정되는 당신.. \n 개만 보면 무섭다고요? \n 목줄을 안찬 강아지가 있다면?", R.drawable.onboard33, "맹견/정보"))
+        onBoardingData.add(OnBoardingData("직접 겪은 꿀팁/정보", "견주들 모이는 장소 없나? \n하네스는 튼튼한게 제일이지! \n 커뮤니티를 통해 꿀팁을 공유하세요!", R.drawable.onboard33, "커뮤니티 기능"))
         onBoardingData.add(OnBoardingData("맹견에 대한 정보를 한눈에!", "공원에 갈때마다 걱정되는 당신.. \n 개만 보면 무섭다고요? \n 목줄을 안찬 강아지가 있다면?", R.drawable.onboard11, "맹견/정보"))
 
         setOnBoardingViewPagerAdapter(onBoardingData)

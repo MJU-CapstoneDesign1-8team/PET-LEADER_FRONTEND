@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/main_green3"
+        app:backgroundTint="@color/main_green"
         app:fabAlignmentMode="center"
         app:navigationIcon="@drawable/ic_baseline_dehaze_24"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -28,7 +28,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/main_green2"
-        android:src="@drawable/ic_baseline_visibility_24"
+        android:backgroundTint="@color/main_green1"
+        app:borderWidth="0dp"
+        android:src="@drawable/scan"
         app:layout_anchor="@id/bottomAppBar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

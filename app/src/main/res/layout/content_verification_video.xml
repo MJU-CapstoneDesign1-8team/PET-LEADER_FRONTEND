@@ -63,8 +63,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <VideoView
+            android:id="@+id/videoView2"
             android:layout_width="350dp"
             android:layout_height="350dp"
             android:layout_margin="10dp"

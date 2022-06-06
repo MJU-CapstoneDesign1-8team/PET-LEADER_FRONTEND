@@ -39,6 +39,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".info.InfoSpecificActivity"
+            android:exported="false" />
+        <activity
             android:name=".profile.ProfileResultActivity"
             android:exported="false" />
         <activity

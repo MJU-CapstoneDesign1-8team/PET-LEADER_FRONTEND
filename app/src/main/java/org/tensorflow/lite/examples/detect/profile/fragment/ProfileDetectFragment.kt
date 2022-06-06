@@ -1,12 +1,14 @@
-package org.tensorflow.lite.examples.detect.profile
+package org.tensorflow.lite.examples.detect.profile.fragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,33 +17,36 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.camera.VerityData
+import org.tensorflow.lite.examples.detect.databinding.FragmentProfileDetectBinding
 import org.tensorflow.lite.examples.detect.profile.adapter.ProfileDetectRVAdapter
 
-class ProfileResultActivity : AppCompatActivity() {
-    private lateinit var profileResultRVAdapter: ProfileDetectRVAdapter
+class ProfileDetectFragment : Fragment() {
+    private lateinit var binding: FragmentProfileDetectBinding
     private val verityDataList = mutableListOf<VerityData>()
+    private lateinit var profileResultRVAdapter: ProfileDetectRVAdapter
 
     var myUid : String? = null
     val auth = Firebase.auth
     private val database = Firebase.database
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_result)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_detect, container, false)
 
-        val rv = findViewById<RecyclerView>(R.id.rv_result_verify)
+        val rv = binding.rvResultVerify
 
-//        myUid = auth.currentUser?.uid
-        myUid = "HozgblgIB1ZAoIAoOdimrm009zj2"
+        myUid = auth.currentUser?.uid
         if (myUid == null) {
-            Toast.makeText(baseContext, "계정을 확인하지 못했습니다.", Toast.LENGTH_SHORT).show()
-            finish()
+            Toast.makeText(context, "계정을 확인하지 못했습니다.", Toast.LENGTH_SHORT).show()
         }
 
         // recyclerview 연결
         profileResultRVAdapter = ProfileDetectRVAdapter(verityDataList)
         rv.adapter = profileResultRVAdapter
-        rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // 데이터 가져오기
         getVerityData()
@@ -53,7 +58,10 @@ class ProfileResultActivity : AppCompatActivity() {
             }
 
         })
+
+        return binding.root
     }
+
 
     fun getVerityData() {
         Log.d("myUid", myUid!!)
@@ -62,9 +70,9 @@ class ProfileResultActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 snapshot.children.forEach {
-                    Log.d("getVerityData dataModel", it.toString())
+//                    Log.d("getVerityData dataModel", it.toString())
                     val item : VerityData? = it.getValue(VerityData::class.java)
-                    Log.d("getVerityData item ", item.toString())
+//                    Log.d("getVerityData item ", item.toString())
                     if (item == null) {
                         return@forEach
                     }
@@ -84,4 +92,5 @@ class ProfileResultActivity : AppCompatActivity() {
         myUid?.let { database.getReference("verify").orderByChild("uid").equalTo(myUid).addValueEventListener(postListener) }
 
     }
+
 }

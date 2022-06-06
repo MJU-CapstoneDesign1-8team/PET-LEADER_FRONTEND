@@ -5,21 +5,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
 import org.tensorflow.lite.examples.detect.community.PostData
 import org.tensorflow.lite.examples.detect.community.PostTab
+import org.tensorflow.lite.examples.detect.login.LoginActivity
 import java.util.*
 
 
@@ -28,13 +29,12 @@ class ProfileActivity : AppCompatActivity() {
     private val context: Context = this
     private lateinit var profileAdapter: ProfileAdapter
 
-
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val database = Firebase.database
         val userInfo = FirebaseDatabase.getInstance().reference
-        auth = Firebase.auth
-        val currentUser = auth.currentUser
+        val currentUser = Firebase.auth.currentUser
 
 
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class ProfileActivity : AppCompatActivity() {
         Log.d("Profile Post", "$myUid")
 
 
-        val database = Firebase.database
+
         val freeDB = database.getReference(PostTab.FREE.name)
         val careDB = database.getReference(PostTab.CARE.name)
         val walkDB = database.getReference(PostTab.WALK.name)

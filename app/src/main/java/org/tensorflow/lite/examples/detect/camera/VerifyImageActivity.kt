@@ -4,10 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
@@ -19,11 +19,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_verification.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -38,7 +48,9 @@ import org.tensorflow.lite.examples.detect.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 class VerifyImageActivity : AppCompatActivity() {
     private val api = RetrofitClient.create(FlaskApi::class.java)
@@ -51,12 +63,49 @@ class VerifyImageActivity : AppCompatActivity() {
     var imageUri: Uri? = null
     val camRequestId = 1222
     lateinit var bodyImage : MultipartBody.Part
+    var userNick = "unknown"
+
+    var userUID : String? = null
+    private lateinit var auth: FirebaseAuth
+    private val database = Firebase.database
+    private val db = FirebaseFirestore.getInstance()
+    lateinit var uri: Uri
+    var verityValueKey : String = ""
+    val nickDB = database.getReference("Nickname")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verify_image)
         val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
         setSupportActionBar(bottomAppBar)
+
+        auth = Firebase.auth
+        userUID = auth.currentUser?.uid
+
+
+
+
+
+
+
+        // 닉네임 정보 가져오기
+        nickDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //유저 닉네임 데이터 수신
+                var nickData: Map<String, String> = snapshot.value as Map<String, String>
+                userNick = when (nickData[userUID]) {
+                    null -> "???"
+                    else -> nickData[userUID]!!
+                }
+
+                Log.e("userNick22", userNick)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Error", "error nickname")
+            }
+        })
+
+
 
         val testTxt = findViewById<TextView>(R.id.test)
         val btnVerify = findViewById<FloatingActionButton>(R.id.fab)
@@ -128,6 +177,42 @@ class VerifyImageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+
+    // firebase Storage 에 업로드
+    private fun uploadImage(uri: Uri, str : String) {
+
+        val storage = FirebaseStorage.getInstance().getReference("images/${verityValueKey}/" + str)
+        storage.putFile(uri).addOnSuccessListener {
+            Toast.makeText(this, "!", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+
+        }
+
+    }
+
+
+    // realtimeDB 에 넣기
+    fun firebaseSetResult(resultBreed : Boolean,  resultMuzzle : Boolean, resultSafety : Boolean) {
+        val verifyRef = database.getReference("verify")
+        val verifyModel = userUID?.let {
+            it->
+            VerityData(
+                resultBreed = resultBreed,
+                resultMuzzle = resultMuzzle,
+                resultSafety = resultSafety,
+                uid = it,
+                nickname = userNick
+            )
+        }
+        val verifyRefPush = verifyRef.push()
+        verityValueKey = verifyRefPush.key.toString()
+        verifyModel?.verifyId = verifyRefPush.key.toString() //랜덤 생성된 postId를 postModel에 저장
+
+        verifyRefPush.setValue(verifyModel)
+        Log.d("verifyId", "${verifyModel?.verifyId}")
+//        verifyRef.child(userUID!!).setValue()
     }
 
     fun sendFirstSetting(uri : Uri) {
@@ -236,10 +321,22 @@ class VerifyImageActivity : AppCompatActivity() {
                     // result4.text = resultMuzzleImgPath
                     result5.text = resultSafety.toString()
                     // result6.text = resultSafetyImgPath
-
+                    Log.e("userNick", userNick)
                     // 다이얼로그 지우기
                     dialog.dismiss()
 
+
+                    if (resultBreed != null) {
+                        if (resultMuzzle != null) {
+                            if (resultSafety != null) {
+                                firebaseSetResult(resultBreed, resultMuzzle, resultSafety)
+                            }
+                        }
+                    }
+
+                    getImageResult(resultBreedImgPath!!, "breed")
+                    getImageResult(resultMuzzleImgPath!!, "muzzle")
+                    getImageResult(resultSafetyImgPath!!, "safety")
 
                 } else {
                     Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
@@ -259,28 +356,39 @@ class VerifyImageActivity : AppCompatActivity() {
     }
 
 
-    // 이미지 결과값 받기
-    private fun getImageResult(resultString: String) {
+    // 비트맵 Uri로 변환
+    private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
 
+    // 이미지 결과값 받기
+    private fun getImageResult(resultString: String, value : String) {
         api.getImage(resultString)
             .enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val toString = response.body()?.byteStream()
 
                     val decodeStream = BitmapFactory.decodeStream(toString)
-                    val image = findViewById<ImageView>(R.id.imageView2)
-                    image.setImageBitmap(decodeStream)
+//                    val image = findViewById<ImageView>(R.id.imageView2)
+//                    image.setImageBitmap(decodeStream)
 
-                    networkCheck = "true"
-//                if (response.isSuccessful) {
-//                    Toast.makeText(applicationContext, "통신 성공", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
-//                }
+                    val imageUri1 = getImageUri(applicationContext, decodeStream)
+                    if (imageUri1 != null) {
+
+
+                        uploadImage(imageUri1, value)
+                    }
+
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.d("로그 fail", t.message.toString())
-                    networkCheck = ""
+
+                    // 실패시 다시 통신
+                    getImageResult(resultString!!, value)
                 }
             })
     }

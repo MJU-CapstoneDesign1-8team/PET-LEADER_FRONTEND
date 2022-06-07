@@ -68,7 +68,9 @@ class ModelBtnRVAdapter(val btnList: MutableList<ModelBtnData>) : RecyclerView.A
 
         fun setSelection(pos: Int) {
             viewList.add(pos, view)
+            if (pos == 0) {
+                titleView.setTextColor(Color.RED)
+            }
         }
-
     }
 }

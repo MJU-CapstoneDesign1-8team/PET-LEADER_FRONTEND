@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.detect.community
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
@@ -21,7 +22,7 @@ class BoardDetailActivity : AppCompatActivity() {
         val titleView = findViewById<TextView>(R.id.titleArea)
         val contentView = findViewById<TextView>(R.id.contentArea)
         val timeView = findViewById<TextView>(R.id.timeArea)
-
+        val backBtnLinear = findViewById<LinearLayout>(R.id.backBtnLinear)
         var post: PostData? = null
 
         val postId: String? = intent.getStringExtra("post_id")
@@ -30,7 +31,9 @@ class BoardDetailActivity : AppCompatActivity() {
 
         val database = Firebase.database
         val postDB = database.getReference(postTab!!)
-
+        backBtnLinear.setOnClickListener {
+            finish()
+        }
         //게시글 내용 불러오기
         postDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -33,9 +34,9 @@ class RegisterActivity : AppCompatActivity() {
         val joinBtn = findViewById<Button>(R.id.registerBtn)
         joinBtn.setOnClickListener {
 
-            val email = findViewById<EditText>(R.id.registerEditTextID)
-            val password = findViewById<EditText>(R.id.registerEditTextPassword)
-            val nickname = findViewById<EditText>(R.id.registerEditTextNickname)
+            val email = findViewById<TextInputEditText>(R.id.registerEditTextID)
+            val password = findViewById<TextInputEditText>(R.id.registerEditTextPassword)
+            val nickname = findViewById<TextInputEditText>(R.id.registerEditTextNickname)
 
             val database = Firebase.database
             val nick = database.getReference("Nickname")

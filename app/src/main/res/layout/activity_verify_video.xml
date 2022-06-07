@@ -31,6 +31,6 @@
         app:borderWidth="0dp"
         android:onClick="startVideo"
         android:backgroundTint="@color/main_green1"
-        android:src="@drawable/ic_baseline_edit_24"
+        android:src="@drawable/ic_photo_camera"
         app:layout_anchor="@id/bottomAppBar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

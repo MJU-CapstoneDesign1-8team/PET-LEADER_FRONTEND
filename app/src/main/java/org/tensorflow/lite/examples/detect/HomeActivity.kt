@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
@@ -38,6 +39,15 @@ class HomeActivity : AppCompatActivity() {
         val faqBtn = findViewById<ImageView>(R.id.home_faq_button)
         val infoBtn = findViewById<ImageView>(R.id.home_info_button)
         val commBtn = findViewById<ImageView>(R.id.home_community_button)
+        val fabBtn = findViewById<FloatingActionButton>(R.id.fab)
+
+        fabBtn.setOnClickListener {
+            fab.hide(AnimationFab.addVisibilityChanged)
+            Handler().postDelayed({
+                val realtimeIntent = Intent(this, DetectorActivity::class.java)
+                startActivity(realtimeIntent)
+            }, 300)
+        }
 
         faqBtn.setOnClickListener {
             fab.hide(AnimationFab.addVisibilityChanged)

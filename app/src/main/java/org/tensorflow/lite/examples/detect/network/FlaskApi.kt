@@ -19,7 +19,7 @@ interface FlaskApi {
     fun getTest(
     ): Call<String>
 
-
+    @Streaming
     @POST("/downloads")
     fun getImage(
         @Body path : String

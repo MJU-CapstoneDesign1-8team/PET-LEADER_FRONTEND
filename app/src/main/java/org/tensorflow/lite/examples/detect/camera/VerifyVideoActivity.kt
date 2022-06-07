@@ -3,39 +3,52 @@ package org.tensorflow.lite.examples.detect.camera
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.BitmapFactory
+import android.graphics.Movie.decodeStream
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.provider.SyncStateContract.Helpers.insert
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_verification.*
 import kotlinx.android.synthetic.main.activity_verification.fab
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.network.FlaskApi
 import org.tensorflow.lite.examples.detect.network.FlaskDto
 import org.tensorflow.lite.examples.detect.network.LoadingDialog
 import org.tensorflow.lite.examples.detect.network.RetrofitClient
-import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+
 
 class VerifyVideoActivity : AppCompatActivity() {
     private val api = RetrofitClient.create(FlaskApi::class.java)
@@ -48,11 +61,38 @@ class VerifyVideoActivity : AppCompatActivity() {
     private var ourRequestCode : Int = 123
     lateinit var bodyVideo : MultipartBody.Part
 
+    var userNick = "unknown"
+    private lateinit var auth: FirebaseAuth
+    private val database = Firebase.database
+    var userUID : String? = null
+    var verityValueKey : String = ""
+    val nickDB = database.getReference("Nickname")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verify_video)
         val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
         setSupportActionBar(bottomAppBar)
+
+        auth = Firebase.auth
+        userUID = auth.currentUser?.uid
+
+        // 닉네임 정보 가져오기
+        nickDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //유저 닉네임 데이터 수신
+                var nickData: Map<String, String> = snapshot.value as Map<String, String>
+                userNick = when (nickData[userUID]) {
+                    null -> "???"
+                    else -> nickData[userUID]!!
+                }
+
+                Log.e("userNick22", userNick)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Error", "error nickname")
+            }
+        })
 
 
         val testTxt = findViewById<TextView>(R.id.test)
@@ -145,16 +185,36 @@ class VerifyVideoActivity : AppCompatActivity() {
                     val result5 = findViewById<TextView>(R.id.resultSafety)
                     // val result6 = findViewById<TextView>(R.id.result6)
 
-                    result1.text = resultBreed.toString()
-                    // result2.text = resultBreedImgPath
-                    result3.text = resultMuzzle.toString()
-                    // result4.text = resultMuzzleImgPath
-                    result5.text = resultSafety.toString()
-                    // result6.text = resultSafetyImgPath
+//                    result1.text = resultBreed.toString()
+//                    // result2.text = resultBreedImgPath
+//                    result3.text = resultMuzzle.toString()
+//                    // result4.text = resultMuzzleImgPath
+//                    result5.text = resultSafety.toString()
+//                    // result6.text = resultSafetyImgPath
+                    if (resultBreed == true) {
+                        result1.text = "맹견"
+                    } else result1.text = "미인식"
 
+                    if (resultMuzzle == true) {
+                        result3.text = "착용"
+                    } else result3.text = "미착용"
+
+                    if (resultSafety == true) {
+                        result5.text = "착용"
+                    } else result5.text = "미착용"
+
+
+                    if (resultBreed != null) {
+                        if (resultMuzzle != null) {
+                            if (resultSafety != null) {
+                                firebaseSetResult(resultBreed, resultMuzzle, resultSafety)
+                            }
+                        }
+                    }
+                    
                     // 다이얼로그 지우기
                     dialog.dismiss()
-
+                    getVideoResult(resultBreedImgPath.toString())
 
                 } else {
                     Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
@@ -179,6 +239,73 @@ class VerifyVideoActivity : AppCompatActivity() {
         if(intent.resolveActivity(packageManager) != null){
             startActivityForResult(intent, ourRequestCode)
         }
+    }
+    
+    
+
+    // 비디오 결과값 받기
+    private fun getVideoResult(resultString: String) {
+        val img = findViewById<ImageView>(R.id.resultBreedImg)
+        api.getImage(resultString)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                    val toString = response.body()?.byteStream()
+//
+//                    val decodeStream = BitmapFactory.decodeStream(toString)
+//                    BitmapImg = decodeStream
+//                    img.setImageBitmap(decodeStream)
+                    val byteStream = response.body()?.byteStream()
+
+                    val decodeStream = decodeStream(byteStream)
+//                    byteStream
+//
+//                    var `is`: InputStream? = null
+//                    try {
+//                        if (sourceURI.isAbsolute()) {
+//                            // if the URI is absolute it can be converted to URL
+//                            `is` = sourceURI.toURL().openStream()
+//                        } else {
+//                            // otherwise create a file class to open the stream
+//                            `is` = FileInputStream(sourceURI.toString())
+//                        }
+//                        insert(`is`, internalPath, mediaType)
+//                    } finally {
+//                        if (`is` != null) {
+//                            `is`.close()
+//                        }
+//                    }
+//                    videoView.setVideoURI()
+
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d("로그 fail", t.message.toString())
+
+                    // 실패시 다시 통신
+                    getVideoResult(resultString!!)
+                }
+            })
+    }
+
+    // realtimeDB 에 넣기
+    fun firebaseSetResult(resultBreed : Boolean,  resultMuzzle : Boolean, resultSafety : Boolean) {
+        val verifyRef = database.getReference("verify")
+        val verifyModel = userUID?.let {
+                it->
+            VerityData(
+                resultBreed = resultBreed,
+                resultMuzzle = resultMuzzle,
+                resultSafety = resultSafety,
+                uid = it,
+                nickname = userNick
+            )
+        }
+        val verifyRefPush = verifyRef.push()
+        verityValueKey = verifyRefPush.key.toString()
+        verifyModel?.verifyId = verifyRefPush.key.toString() //랜덤 생성
+
+        verifyRefPush.setValue(verifyModel)
+        Log.d("verifyId", "${verifyModel?.verifyId}")
+//        verifyRef.child(userUID!!).setValue()
     }
 
     // 동영상 실행

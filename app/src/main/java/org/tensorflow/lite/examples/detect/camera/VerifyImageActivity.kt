@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,21 +36,23 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_verification.*
+import kotlinx.android.synthetic.main.dialog_report.*
+import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.network.FlaskApi
-import org.tensorflow.lite.examples.detect.network.FlaskDto
-import org.tensorflow.lite.examples.detect.network.LoadingDialog
-import org.tensorflow.lite.examples.detect.network.RetrofitClient
+import org.tensorflow.lite.examples.detect.network.*
+import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class VerifyImageActivity : AppCompatActivity() {
@@ -58,6 +61,13 @@ class VerifyImageActivity : AppCompatActivity() {
     private var resultStringMuzzle = ""
     private var resultStringSafety = ""
     private var networkCheck = ""
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val current = LocalDateTime.now()
+    @RequiresApi(Build.VERSION_CODES.O)
+    val formatter = DateTimeFormatter.ISO_DATE
+    @RequiresApi(Build.VERSION_CODES.O)
+    val formatted = current.format(formatter)
 
     var imageView: ImageView? = null
     var imageUri: Uri? = null
@@ -194,7 +204,8 @@ class VerifyImageActivity : AppCompatActivity() {
 
 
     // realtimeDB 에 넣기
-    fun firebaseSetResult(resultBreed : Boolean,  resultMuzzle : Boolean, resultSafety : Boolean) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun firebaseSetResult(resultBreed : Boolean, resultMuzzle : Boolean, resultSafety : Boolean) {
         val verifyRef = database.getReference("verify")
         val verifyModel = userUID?.let {
             it->
@@ -203,12 +214,13 @@ class VerifyImageActivity : AppCompatActivity() {
                 resultMuzzle = resultMuzzle,
                 resultSafety = resultSafety,
                 uid = it,
-                nickname = userNick
+                nickname = userNick,
+                date = formatted
             )
         }
         val verifyRefPush = verifyRef.push()
         verityValueKey = verifyRefPush.key.toString()
-        verifyModel?.verifyId = verifyRefPush.key.toString() //랜덤 생성된 postId를 postModel에 저장
+        verifyModel?.verifyId = verifyRefPush.key.toString() //랜덤 생성
 
         verifyRefPush.setValue(verifyModel)
         Log.d("verifyId", "${verifyModel?.verifyId}")
@@ -266,6 +278,7 @@ class VerifyImageActivity : AppCompatActivity() {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
         val call = service.postFile(userCd, image)!! //통신 API 패스 설정
         val dialog = LoadingDialog(this)
+        val dialogReport = ReportDialog(this)
 
         // 다이얼로그 보여주기
         dialog.show()
@@ -315,15 +328,30 @@ class VerifyImageActivity : AppCompatActivity() {
                     btnMuzzle.isEnabled = true
                     btnSafety.isEnabled = true
 
-                    result1.text = resultBreed.toString()
-                    // result2.text = resultBreedImgPath
-                    result3.text = resultMuzzle.toString()
-                    // result4.text = resultMuzzleImgPath
-                    result5.text = resultSafety.toString()
+
+                    if (resultBreed == true) {
+                        result1.text = "맹견"
+                    } else result1.text = "미인식"
+
+                    if (resultMuzzle == true) {
+                        result3.text = "착용"
+                    } else result3.text = "미착용"
+
+                    if (resultSafety == true) {
+                        result5.text = "착용"
+                    } else result5.text = "미착용"
+//                    result1.text = resultBreed.toString()
+//                    // result2.text = resultBreedImgPath
+//                    result3.text = resultMuzzle.toString()
+//                    // result4.text = resultMuzzleImgPath
+//                    result5.text = resultSafety.toString()
                     // result6.text = resultSafetyImgPath
                     Log.e("userNick", userNick)
                     // 다이얼로그 지우기
-                    dialog.dismiss()
+
+
+
+
 
 
                     if (resultBreed != null) {
@@ -334,9 +362,35 @@ class VerifyImageActivity : AppCompatActivity() {
                         }
                     }
 
+
+                    // 딜레이 줘서 파일 다운로드
                     getImageResult(resultBreedImgPath!!, "breed")
-                    getImageResult(resultMuzzleImgPath!!, "muzzle")
-                    getImageResult(resultSafetyImgPath!!, "safety")
+
+                    Handler().postDelayed({
+                        getImageResult(resultMuzzleImgPath!!, "muzzle")
+                    }, 3000)
+
+                    Handler().postDelayed({
+                        getImageResult(resultSafetyImgPath!!, "safety")
+                    }, 3000)
+//                    getImageResult(resultMuzzleImgPath!!, "muzzle")
+//                    getImageResult(resultSafetyImgPath!!, "safety")
+
+                    dialog.dismiss()
+
+
+                    if (resultBreed == true && resultMuzzle == false && resultSafety == false) {
+                        dialogReport.show()
+
+                        dialogReport.report_btn.setOnClickListener {
+                            Toast.makeText(applicationContext, "신고 접수", Toast.LENGTH_SHORT).show()
+                            dialogReport.dismiss()
+                        }
+
+                        dialogReport.exit_btn.setOnClickListener {
+                            dialogReport.dismiss()
+                        }
+                    }
 
                 } else {
                     Toast.makeText(applicationContext, "통신 실패", Toast.LENGTH_SHORT).show()
@@ -355,6 +409,10 @@ class VerifyImageActivity : AppCompatActivity() {
         })
     }
 
+
+    private fun report() {
+
+    }
 
     // 비트맵 Uri로 변환
     private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
@@ -404,6 +462,7 @@ class VerifyImageActivity : AppCompatActivity() {
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             Log.d("TAG",file.name)
+            imageView!!.setImageURI(imagePath)
 
             sendFile("file",body)
         }

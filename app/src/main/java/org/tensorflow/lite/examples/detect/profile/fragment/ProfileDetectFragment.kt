@@ -1,11 +1,13 @@
 package org.tensorflow.lite.examples.detect.profile.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +19,16 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.camera.VerityData
+import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
+import org.tensorflow.lite.examples.detect.community.PostTab
 import org.tensorflow.lite.examples.detect.databinding.FragmentProfileDetectBinding
+import org.tensorflow.lite.examples.detect.profile.DetailResultActivity
 import org.tensorflow.lite.examples.detect.profile.adapter.ProfileDetectRVAdapter
 
 class ProfileDetectFragment : Fragment() {
     private lateinit var binding: FragmentProfileDetectBinding
     private val verityDataList = mutableListOf<VerityData>()
+    private val verityKeyList = mutableListOf<String>()
     private lateinit var profileResultRVAdapter: ProfileDetectRVAdapter
 
     var myUid : String? = null
@@ -55,6 +61,10 @@ class ProfileDetectFragment : Fragment() {
         profileResultRVAdapter.setItemClickListener(object : ProfileDetectRVAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 Log.e("test click", "test click")
+
+                val intent = Intent(activity, DetailResultActivity::class.java)
+                intent.putExtra("key", verityKeyList[position])
+                startActivity(intent)
             }
 
         })
@@ -69,6 +79,8 @@ class ProfileDetectFragment : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
+                verityDataList.clear()
+
                 snapshot.children.forEach {
 //                    Log.d("getVerityData dataModel", it.toString())
                     val item : VerityData? = it.getValue(VerityData::class.java)
@@ -77,6 +89,7 @@ class ProfileDetectFragment : Fragment() {
                         return@forEach
                     }
                     verityDataList.add(item!!)
+                    verityKeyList.add(it.key.toString())
                 }
 //                verityDataList.reverse()
                 profileResultRVAdapter.notifyDataSetChanged()

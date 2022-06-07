@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background2"
+    android:background="#EFFFED"
     tools:context=".login.RegisterActivity">
 
     <LinearLayout
@@ -21,72 +21,98 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/logo" />
+
+        <TextView
+            android:text="PET Reader"
+            android:layout_gravity="center"
+            android:fontFamily="@font/sd8"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         //닉네임 입력칸
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerInputLayoutNick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:counterEnabled="true"
-            android:backgroundTint="@color/dark_green"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            android:layout_width="match_parent"
             app:counterMaxLength="10"
-            android:layout_gravity="center">
-            <EditText
+            android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="55dp"
+            android:hint="닉네임">
+
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/registerEditTextNickname"
-                android:layout_width="250dp"
-                android:maxLength="10"
-                android:layout_height="wrap_content"
-                android:background="@color/background2"
-                android:fontFamily="@font/interlight"
-                android:privateImeOptions="defaultInputmode=korean"
-                android:hint="닉네임"
-                android:textSize="20sp" />
+                android:drawableStart="@drawable/ic_baseline_emoji_emotions_24"
+                android:drawablePadding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         //ID 입력칸
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerInputLayoutID"
-            android:layout_width="wrap_content"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/dark_green"
-            android:layout_gravity="center">
-            <EditText
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="55dp"
+            android:hint="Email">
+
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/registerEditTextID"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:background="@color/background2"
-                android:fontFamily="@font/interlight"
-                android:hint="ID"
-                android:textSize="20sp" />
+                android:drawableStart="@drawable/ic_baseline_email_24"
+                android:drawablePadding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         //Password 입력칸
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerInputLayoutPassword"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/dark_green"
-            android:layout_gravity="center"
-            app:passwordToggleEnabled="true" >
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="55dp"
+            app:endIconMode="password_toggle"
+            android:hint="Password">
 
-            <EditText
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/registerEditTextPassword"
-                android:layout_width="250dp"
+                android:drawableStart="@drawable/ic_baseline_lock_24"
+                android:drawablePadding="10dp"
                 android:inputType="textPassword"
-                android:layout_height="wrap_content"
-                android:background="@color/background2"
-                android:fontFamily="@font/interlight"
-                android:hint="PASSWORD"
-                android:textSize="20sp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
 
         //회원가입 버튼
         <Button
             android:id="@+id/registerBtn"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="55dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/main_green"

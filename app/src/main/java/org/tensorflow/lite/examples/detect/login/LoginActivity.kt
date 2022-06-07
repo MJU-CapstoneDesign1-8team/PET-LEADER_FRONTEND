@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,8 +29,8 @@ class LoginActivity : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.loginBtn)
         loginBtn.setOnClickListener {
 
-            val email = findViewById<EditText>(R.id.loginEditTextID)
-            val password = findViewById<EditText>(R.id.loginEditTextPassword)
+            val email = findViewById<TextInputEditText>(R.id.loginEditTextID)
+            val password = findViewById<TextInputEditText>(R.id.loginEditTextPassword)
 
             auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener(this) { task ->

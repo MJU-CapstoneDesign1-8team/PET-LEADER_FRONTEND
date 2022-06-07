@@ -2,15 +2,12 @@ package org.tensorflow.lite.examples.detect.info
 
 import android.content.Context
 import android.content.Intent
-import android.icu.text.IDNA
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.petleader.faq.FaqRVAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
@@ -23,10 +20,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_faq.*
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
-import org.tensorflow.lite.examples.detect.community.BoardDetailActivity
-import org.tensorflow.lite.examples.detect.community.PostTab
-import org.tensorflow.lite.examples.detect.community.adapter.FreeBoardRVAdapter
-import org.tensorflow.lite.examples.detect.faq.FAQData
 
 class InfoActivity : AppCompatActivity() {
 

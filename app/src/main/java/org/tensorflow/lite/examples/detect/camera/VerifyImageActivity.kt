@@ -286,6 +286,7 @@ class VerifyImageActivity : AppCompatActivity() {
         dialog.setCancelable(false)
 
         call.enqueue(object : Callback<FlaskDto> {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<FlaskDto>, response: Response<FlaskDto>) {
                 if (response.isSuccessful) {
                     Log.d("로그 ", "" + response?.body().toString())

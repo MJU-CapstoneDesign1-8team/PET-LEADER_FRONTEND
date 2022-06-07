@@ -22,6 +22,7 @@ import org.tensorflow.lite.examples.detect.faq.FaqActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_home.fab
 import org.tensorflow.lite.examples.detect.info.InfoActivity
+import org.tensorflow.lite.examples.detect.info.ReportInfoActivity
 import org.tensorflow.lite.examples.detect.yolov5.DetectorActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -40,6 +41,8 @@ class HomeActivity : AppCompatActivity() {
         val infoBtn = findViewById<ImageView>(R.id.home_info_button)
         val commBtn = findViewById<ImageView>(R.id.home_community_button)
         val fabBtn = findViewById<FloatingActionButton>(R.id.fab)
+        val reportInfoBtn = findViewById<ImageView>(R.id.home_report_info_button22)
+
 
         fabBtn.setOnClickListener {
             fab.hide(AnimationFab.addVisibilityChanged)
@@ -82,6 +85,14 @@ class HomeActivity : AppCompatActivity() {
                 val commIntent = Intent(this, CommunityActivity::class.java)
                 Log.d("click", "community")
                 startActivity(commIntent)
+            }, 300)
+        }
+
+        reportInfoBtn.setOnClickListener {
+            fab.hide(AnimationFab.addVisibilityChanged)
+            Handler().postDelayed({
+                val reportInfoIntent = Intent(this, ReportInfoActivity::class.java)
+                startActivity(reportInfoIntent)
             }, 300)
         }
 

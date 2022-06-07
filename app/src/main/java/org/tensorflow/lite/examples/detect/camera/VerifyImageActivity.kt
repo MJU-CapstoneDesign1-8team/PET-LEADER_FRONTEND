@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -50,6 +51,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class VerifyImageActivity : AppCompatActivity() {
@@ -58,6 +61,13 @@ class VerifyImageActivity : AppCompatActivity() {
     private var resultStringMuzzle = ""
     private var resultStringSafety = ""
     private var networkCheck = ""
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val current = LocalDateTime.now()
+    @RequiresApi(Build.VERSION_CODES.O)
+    val formatter = DateTimeFormatter.ISO_DATE
+    @RequiresApi(Build.VERSION_CODES.O)
+    val formatted = current.format(formatter)
 
     var imageView: ImageView? = null
     var imageUri: Uri? = null
@@ -194,7 +204,8 @@ class VerifyImageActivity : AppCompatActivity() {
 
 
     // realtimeDB 에 넣기
-    fun firebaseSetResult(resultBreed : Boolean,  resultMuzzle : Boolean, resultSafety : Boolean) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun firebaseSetResult(resultBreed : Boolean, resultMuzzle : Boolean, resultSafety : Boolean) {
         val verifyRef = database.getReference("verify")
         val verifyModel = userUID?.let {
             it->
@@ -203,7 +214,8 @@ class VerifyImageActivity : AppCompatActivity() {
                 resultMuzzle = resultMuzzle,
                 resultSafety = resultSafety,
                 uid = it,
-                nickname = userNick
+                nickname = userNick,
+                date = formatted
             )
         }
         val verifyRefPush = verifyRef.push()

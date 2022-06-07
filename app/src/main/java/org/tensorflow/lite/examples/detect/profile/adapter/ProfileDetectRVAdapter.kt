@@ -59,7 +59,7 @@ class ProfileDetectRVAdapter(val items  : MutableList<VerityData>) : RecyclerVie
             rstBreed.text = "견종: " + getDetectDetect(item.resultBreed)
             rstMuzzle.text = "입마개: " + getDetectDetect(item.resultMuzzle)
             rstSafety.text = "목줄: " + getDetectDetect(item.resultSafety)
-            date.text = "0000/00/00"
+            date.text = item.date
 
             //인식 이미지 출력
             val list : List<String> = listOf("breed", "muzzle", "safety")

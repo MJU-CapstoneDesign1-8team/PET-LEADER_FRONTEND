@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.detect.profile
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +14,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.content_verification_detail_result.*
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.camera.VerityData
+import org.tensorflow.lite.examples.detect.network.ReportDialog
 import org.tensorflow.lite.examples.detect.profile.adapter.ProfileDetectRVAdapter
+import java.io.File
 
 class ProfileResultActivity : AppCompatActivity() {
     private lateinit var profileResultRVAdapter: ProfileDetectRVAdapter
@@ -24,6 +29,7 @@ class ProfileResultActivity : AppCompatActivity() {
     var myUid : String? = null
     val auth = Firebase.auth
     private val database = Firebase.database
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +57,6 @@ class ProfileResultActivity : AppCompatActivity() {
             override fun onClick(v: View, position: Int) {
                 Log.e("test click", "test click")
             }
-
         })
     }
 
@@ -70,7 +75,8 @@ class ProfileResultActivity : AppCompatActivity() {
                     }
                     verityDataList.add(item!!)
                 }
-//                verityDataList.reverse()
+
+                verityDataList.reverse()
                 profileResultRVAdapter.notifyDataSetChanged()
                 Log.d("getVerityData",verityDataList.toString())
             }
@@ -84,4 +90,7 @@ class ProfileResultActivity : AppCompatActivity() {
         myUid?.let { database.getReference("verify").orderByChild("uid").equalTo(myUid).addValueEventListener(postListener) }
 
     }
+
+
+
 }

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
     companion object {
-        const val BASE_URL = "https://d618-121-139-178-113.jp.ngrok.io" // 주소
+        const val BASE_URL = "https://d723-121-139-178-113.jp.ngrok.io" // 주소
 
         fun <T> create(apiService : Class<T>) : T {
             val gson = GsonBuilder().setLenient().create()

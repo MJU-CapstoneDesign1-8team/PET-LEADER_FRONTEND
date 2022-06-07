@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_verification.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
@@ -98,7 +99,7 @@ class VerificationActivity : AppCompatActivity() {
 
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
-        val call = service.postFile(userCd, image)!! //통신 API 패스 설정
+        val call = service.postFile(userCd, image) //통신 API 패스 설정
         val dialog = LoadingDialog(this)
 
         // 다이얼로그 보여주기
@@ -109,7 +110,7 @@ class VerificationActivity : AppCompatActivity() {
         call.enqueue(object : Callback<FlaskDto> {
             override fun onResponse(call: Call<FlaskDto>, response: Response<FlaskDto>) {
                 if (response.isSuccessful) {
-                    Log.d("로그 ", "" + response?.body().toString())
+                    Log.d("로그 ", "" + response.body().toString())
                     Toast.makeText(applicationContext, "통신 성공", Toast.LENGTH_SHORT).show()
 
                     val resultBreed = response.body()?.result_breed
@@ -199,7 +200,7 @@ class VerificationActivity : AppCompatActivity() {
             val imagePath = result.data!!.data
 
             val file = File(absolutelyPath(imagePath, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             Log.d("TAG",file.name)
@@ -238,7 +239,7 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             android.R.id.home -> { // 홈으로 돌아가기
                 fab.hide(AnimationFab.addVisibilityChanged)
                 Handler().postDelayed({

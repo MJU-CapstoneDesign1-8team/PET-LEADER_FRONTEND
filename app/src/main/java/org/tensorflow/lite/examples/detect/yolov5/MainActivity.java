@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Minimum detection confidence to track a detection.
     private static final boolean MAINTAIN_ASPECT = true;
-    private Integer sensorOrientation = 90;
+    private final Integer sensorOrientation = 90;
 
     private Classifier detector;
 

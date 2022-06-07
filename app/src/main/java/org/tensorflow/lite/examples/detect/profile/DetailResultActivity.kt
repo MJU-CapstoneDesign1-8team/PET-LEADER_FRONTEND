@@ -196,7 +196,7 @@ class DetailResultActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when (item?.itemId) {
+        when (item.itemId) {
             android.R.id.home -> { // 홈으로 돌아가기
                 fab.hide(AnimationFab.addVisibilityChanged)
                 Handler().postDelayed({

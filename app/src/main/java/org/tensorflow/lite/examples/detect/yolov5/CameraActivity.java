@@ -38,7 +38,10 @@ import android.os.Trace;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -62,6 +65,11 @@ import java.util.ArrayList;
 import org.tensorflow.lite.examples.detect.R;
 import org.tensorflow.lite.examples.detect.yolov5.env.ImageUtils;
 import org.tensorflow.lite.examples.detect.yolov5.env.Logger;
+import org.tensorflow.lite.examples.detect.yolov5.modelbutton.ModelBtnData;
+import org.tensorflow.lite.examples.detect.yolov5.modelbutton.ModelBtnManager;
+import org.tensorflow.lite.examples.detect.yolov5.modelbutton.ModelBtnRVAdapter;
+
+import kotlin.collections.AbstractMutableList;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -76,12 +84,12 @@ public abstract class CameraActivity extends AppCompatActivity
   private static final String ASSET_PATH = "";
   protected int previewWidth = 0;
   protected int previewHeight = 0;
-  private boolean debug = false;
+  private final boolean debug = false;
   protected Handler handler;
   private HandlerThread handlerThread;
   private boolean useCamera2API;
   private boolean isProcessingFrame = false;
-  private byte[][] yuvBytes = new byte[3][];
+  private final byte[][] yuvBytes = new byte[3][];
   private int[] rgbBytes = null;
   private int yRowStride;
   protected int defaultModelIndex = 0;
@@ -173,27 +181,23 @@ public abstract class CameraActivity extends AppCompatActivity
 
 
     //Model Change Button
-    ImageButton breedModel = findViewById((R.id.detect_breed_button));
-    ImageButton leashModel = findViewById((R.id.detect_leash_button));
-    ImageButton muzzleModel = findViewById((R.id.detect_muzzle_button));
-    breedModel.setOnClickListener(new View.OnClickListener() {
+    RecyclerView modelRV = findViewById(R.id.model_button_rv);
+    ModelBtnManager modelManager = new ModelBtnManager();
+    ModelBtnRVAdapter modelBtnRVAdapter = new ModelBtnRVAdapter(modelManager.getBtnList());
+
+    modelRV.setAdapter(modelBtnRVAdapter);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+    modelRV.setLayoutManager(layoutManager);
+
+    modelBtnRVAdapter.setItemClickListener(new ModelBtnRVAdapter.OnItemClickListener() {
       @Override
-      public void onClick(View view) {
-        updateActiveModel(0);
+      public void onClick(@NonNull View v, int position, @NonNull ModelBtnData model) {
+        Log.d("modelll", model.toString());
+        updateActiveModel(position);
       }
     });
-    leashModel.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        updateActiveModel(1);
-      }
-    });
-    muzzleModel.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        updateActiveModel(2);
-      }
-    });
+
 
     ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
     vto.addOnGlobalLayoutListener(

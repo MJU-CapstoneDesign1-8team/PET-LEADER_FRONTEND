@@ -88,7 +88,7 @@ class ProfileDetectFragment : Fragment() {
                     if (item == null) {
                         return@forEach
                     }
-                    verityDataList.add(item!!)
+                    verityDataList.add(item)
                     verityKeyList.add(it.key.toString())
                 }
 //                verityDataList.reverse()

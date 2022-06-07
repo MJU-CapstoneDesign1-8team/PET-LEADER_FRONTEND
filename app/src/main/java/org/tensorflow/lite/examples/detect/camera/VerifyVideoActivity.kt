@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_verification.fab
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
@@ -143,7 +144,7 @@ class VerifyVideoActivity : AppCompatActivity() {
     // 서버로 이미지 보내기
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
-        val call = service.postFile(userCd, image)!! //통신 API 패스 설정
+        val call = service.postFile(userCd, image) //통신 API 패스 설정
         val dialog = LoadingDialog(this)
 
         // 다이얼로그 보여주기
@@ -154,7 +155,7 @@ class VerifyVideoActivity : AppCompatActivity() {
         call.enqueue(object : Callback<FlaskDto> {
             override fun onResponse(call: Call<FlaskDto>, response: Response<FlaskDto>) {
                 if (response.isSuccessful) {
-                    Log.d("로그 ", "" + response?.body().toString())
+                    Log.d("로그 ", "" + response.body().toString())
                     Toast.makeText(applicationContext, "통신 성공", Toast.LENGTH_SHORT).show()
 
                     val resultBreed = response.body()?.result_breed
@@ -281,7 +282,7 @@ class VerifyVideoActivity : AppCompatActivity() {
                     Log.d("로그 fail", t.message.toString())
 
                     // 실패시 다시 통신
-                    getVideoResult(resultString!!)
+                    getVideoResult(resultString)
                 }
             })
     }
@@ -319,7 +320,7 @@ class VerifyVideoActivity : AppCompatActivity() {
 
             val uri : Uri? = videoUri
             val file = File(absolutelyPath(uri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             bodyVideo = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             Log.d("TAG",file.name)
@@ -332,7 +333,7 @@ class VerifyVideoActivity : AppCompatActivity() {
             val imagePath = result.data!!.data
 
             val file = File(absolutelyPath(imagePath, this))
-            val requestFile = RequestBody.create("video/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("video/*".toMediaTypeOrNull())
             val bodyVideo = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             Log.d("TAG",file.name)
@@ -379,7 +380,7 @@ class VerifyVideoActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             android.R.id.home -> { // 홈으로 돌아가기
                 fab.hide(AnimationFab.addVisibilityChanged)
                 Handler().postDelayed({

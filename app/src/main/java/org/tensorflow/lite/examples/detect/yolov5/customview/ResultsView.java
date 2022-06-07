@@ -19,5 +19,5 @@ import java.util.List;
 import org.tensorflow.lite.examples.detect.yolov5.tflite.Classifier.Recognition;
 
 public interface ResultsView {
-  public void setResults(final List<Recognition> results);
+  void setResults(final List<Recognition> results);
 }

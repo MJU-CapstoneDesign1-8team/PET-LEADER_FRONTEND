@@ -10,6 +10,7 @@ import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
 import org.tensorflow.lite.examples.detect.login.LoginActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileActivity
 import org.tensorflow.lite.examples.detect.profile.ProfileResultActivity
+import org.tensorflow.lite.examples.detect.yolov5.DetectorActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

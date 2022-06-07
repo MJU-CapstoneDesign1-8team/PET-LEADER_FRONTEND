@@ -73,7 +73,7 @@ class ProfileResultActivity : AppCompatActivity() {
                     if (item == null) {
                         return@forEach
                     }
-                    verityDataList.add(item!!)
+                    verityDataList.add(item)
                 }
 
                 verityDataList.reverse()

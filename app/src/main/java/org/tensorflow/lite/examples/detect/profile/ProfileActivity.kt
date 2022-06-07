@@ -111,13 +111,13 @@ class ProfileActivity : AppCompatActivity() {
 
         val viewPager2 = findViewById<ViewPager2>(R.id.profile_viewpage)
         viewPager2.adapter = ProfileFeatureAdapter(this)
-        viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL;
+        viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 if (positionOffsetPixels == 0) {
-                    viewPager2.currentItem = position;
+                    viewPager2.currentItem = position
                     profileDataType.text = when(position) {
                         0 -> "내 글"
                         1 -> "검사 결과"
@@ -126,9 +126,6 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-            }
         })
     }
 }

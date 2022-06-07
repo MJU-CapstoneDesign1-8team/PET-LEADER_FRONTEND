@@ -82,7 +82,7 @@ class DeepLearningResultActivity : AppCompatActivity() {
                     Log.d("로그 fail", t.message.toString())
 
                     // 실패시 다시 통신
-                    getImageResult(resultString!!)
+                    getImageResult(resultString)
                 }
             })
     }

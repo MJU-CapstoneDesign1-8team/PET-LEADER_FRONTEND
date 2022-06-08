@@ -92,14 +92,17 @@ class DetailResultActivity : AppCompatActivity() {
             .build()
 
         checkBreedBtn.setOnClickListener {
+            Log.e("verityId key", key)
             loadImage(key, "breed")
         }
 
         checkMuzzleBtn.setOnClickListener {
+            Log.e("verityId key", key)
             loadImage(key, "muzzle")
         }
 
         checkSafetyBtn.setOnClickListener {
+            Log.e("verityId key", key)
             loadImage(key, "safety")
         }
 
@@ -130,6 +133,7 @@ class DetailResultActivity : AppCompatActivity() {
         val resultMuzzleTv = findViewById<TextView>(R.id.resultMuzzle_result)
         val resultSafetyTv = findViewById<TextView>(R.id.resultSafety_result)
         val reportresult = findViewById<TextView>(R.id.textView2222)
+        val addressResult = findViewById<TextView>(R.id.address_result)
         Log.e("kkkk", key)
         val postListener = object : ValueEventListener {
 
@@ -141,6 +145,7 @@ class DetailResultActivity : AppCompatActivity() {
                     val resultBreed = dataModel.resultBreed
                     val resultMuzzle = dataModel.resultMuzzle
                     val resultSafety = dataModel.resultSafety
+                    addressResult.text = dataModel.address
 
                     if (resultBreed == true) {
                         resultBreedTv.text = "맹견"
@@ -181,7 +186,8 @@ class DetailResultActivity : AppCompatActivity() {
     }
 
     fun loadImage(id: String, file: String) {
-        val storageRef = FirebaseStorage.getInstance().reference.child("images/${id}/${file}")
+        Log.e("verityId", id)
+        val storageRef = FirebaseStorage.getInstance().reference.child("image/${id}/${file}.jpg3e")
         val localFile = File.createTempFile("tempFile", "jpeg")
 
         storageRef.getFile(localFile).addOnSuccessListener {

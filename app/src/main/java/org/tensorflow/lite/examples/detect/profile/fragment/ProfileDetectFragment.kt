@@ -92,6 +92,8 @@ class ProfileDetectFragment : Fragment() {
                     verityKeyList.add(it.key.toString())
                 }
 //                verityDataList.reverse()
+                verityKeyList.reverse()
+                verityDataList.reverse()
                 profileResultRVAdapter.notifyDataSetChanged()
                 Log.d("getVerityData",verityDataList.toString())
             }

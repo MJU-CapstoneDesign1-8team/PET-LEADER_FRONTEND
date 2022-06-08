@@ -1,15 +1,20 @@
 package org.tensorflow.lite.examples.detect.camera
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
@@ -21,6 +26,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -37,7 +45,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_verification.*
 import kotlinx.android.synthetic.main.dialog_report.*
-import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -46,7 +53,6 @@ import okhttp3.ResponseBody
 import org.tensorflow.lite.examples.detect.AnimationFab
 import org.tensorflow.lite.examples.detect.R
 import org.tensorflow.lite.examples.detect.network.*
-import org.tensorflow.lite.examples.detect.onboard.OnBoardActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,6 +60,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class VerifyImageActivity : AppCompatActivity() {
@@ -62,6 +69,13 @@ class VerifyImageActivity : AppCompatActivity() {
     private var resultStringMuzzle = ""
     private var resultStringSafety = ""
     private var networkCheck = ""
+    lateinit var userAddress : String
+
+    private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
+    lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
+    //internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
+    internal lateinit var mLocationRequest: com.google.android.gms.location.LocationRequest // 위치 정보 요청의 매개변수를 저장하는
+    private val REQUEST_PERMISSION_LOCATION = 10
 
     @RequiresApi(Build.VERSION_CODES.O)
     val current = LocalDateTime.now()
@@ -83,6 +97,7 @@ class VerifyImageActivity : AppCompatActivity() {
     lateinit var uri: Uri
     var verityValueKey : String = ""
     val nickDB = database.getReference("Nickname")
+    val MY_PERMISSION_ACCESS_ALL = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,10 +108,21 @@ class VerifyImageActivity : AppCompatActivity() {
         auth = Firebase.auth
         userUID = auth.currentUser?.uid
 
+        mLocationRequest =  LocationRequest.create().apply {
+
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        }
 
 
-
-
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            var permissions = arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+        }
 
 
         // 닉네임 정보 가져오기
@@ -117,7 +143,7 @@ class VerifyImageActivity : AppCompatActivity() {
         })
 
 
-
+        val testAddress = findViewById<TextView>(R.id.tv_address)
         val testTxt = findViewById<TextView>(R.id.test)
         val btnVerify = findViewById<FloatingActionButton>(R.id.fab)
         val btnBreed = findViewById<Button>(R.id.breedGetBtn)
@@ -136,6 +162,13 @@ class VerifyImageActivity : AppCompatActivity() {
             .build()
 
 
+        testAddress.setOnClickListener {
+            if (checkPermissionForLocation(this)) {
+                startLocationUpdates()
+
+            }
+        }
+
         // 카메라 클릭 시
         cameraBtn.setOnClickListener{
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -147,6 +180,12 @@ class VerifyImageActivity : AppCompatActivity() {
         // 서버로 보내기
         serverBtn.setOnClickListener {
             sendFile("file",bodyImage)
+
+            if (checkPermissionForLocation(this)) {
+                startLocationUpdates()
+
+            }
+
         }
 
 
@@ -216,7 +255,8 @@ class VerifyImageActivity : AppCompatActivity() {
                 resultSafety = resultSafety,
                 uid = it,
                 nickname = userNick,
-                date = formatted
+                date = formatted,
+                address = userAddress
             )
         }
         val verifyRefPush = verifyRef.push()
@@ -277,7 +317,7 @@ class VerifyImageActivity : AppCompatActivity() {
     // 서버로 이미지 보내기
     private fun sendFile(userCd : String, image : MultipartBody.Part) {
         val service = RetrofitClient.create(FlaskApi::class.java) //레트로핏 통신 설정
-        val call = service.postFile(userCd, image) //통신 API 패스 설정
+        val call = service.postFile(userCd, image)!! //통신 API 패스 설정
         val dialog = LoadingDialog(this)
         val dialogReport = ReportDialog(this)
 
@@ -370,11 +410,11 @@ class VerifyImageActivity : AppCompatActivity() {
 
                     Handler().postDelayed({
                         getImageResult(resultMuzzleImgPath!!, "muzzle")
-                    }, 3000)
+                    }, 1000)
 
                     Handler().postDelayed({
                         getImageResult(resultSafetyImgPath!!, "safety")
-                    }, 3000)
+                    }, 1000)
 //                    getImageResult(resultMuzzleImgPath!!, "muzzle")
 //                    getImageResult(resultSafetyImgPath!!, "safety")
 
@@ -416,7 +456,8 @@ class VerifyImageActivity : AppCompatActivity() {
 
     }
 
-    // 비트맵 Uri로 변환
+
+
     private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
@@ -435,8 +476,11 @@ class VerifyImageActivity : AppCompatActivity() {
                     val decodeStream = BitmapFactory.decodeStream(toString)
 //                    val image = findViewById<ImageView>(R.id.imageView2)
 //                    image.setImageBitmap(decodeStream)
-
-                    val imageUri1 = getImageUri(applicationContext, decodeStream)
+                    if(decodeStream == null)
+                    {
+                        Log.e("Eeeeeeeeeeeeeeeeee","eeeeeeeeeeeeeeeee")
+                    }
+                    val imageUri1 = getImageUri(baseContext, decodeStream)
                     if (imageUri1 != null) {
 
 
@@ -448,7 +492,7 @@ class VerifyImageActivity : AppCompatActivity() {
                     Log.d("로그 fail", t.message.toString())
 
                     // 실패시 다시 통신
-                    getImageResult(resultString, value)
+                    getImageResult(resultString!!, value)
                 }
             })
     }
@@ -460,7 +504,7 @@ class VerifyImageActivity : AppCompatActivity() {
             val imagePath = result.data!!.data
 
             val file = File(absolutelyPath(imagePath, this))
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             Log.d("TAG",file.name)
@@ -472,6 +516,9 @@ class VerifyImageActivity : AppCompatActivity() {
 
     // 이미지 앱 선택
     fun getImage(){
+        if (checkPermissionForLocation(this)) {
+            startLocationUpdates()
+        }
         Log.d("mediaFile","사진변경 호출")
         val chooserIntent = Intent(Intent.ACTION_CHOOSER)
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -499,12 +546,97 @@ class VerifyImageActivity : AppCompatActivity() {
         return true
     }
 
+    // 지역 정보(주소 정보) 가져오기
+    private fun getAddress(position: LatLng) {
+        val tttt = findViewById<TextView>(R.id.tv_address)
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        val address =
+            geoCoder.getFromLocation(position.latitude, position.longitude, 1).first()
+                .getAddressLine(0)
+
+        Log.e("Address", address)
+        tttt.text = address
+        userAddress = address
+    }
+
+    private fun startLocationUpdates() {
+
+        //FusedLocationProviderClient의 인스턴스를 생성.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
+        // 지정한 루퍼 스레드(Looper.myLooper())에서 콜백(mLocationCallback)으로 위치 업데이트를 요청
+        Looper.myLooper()?.let {
+            mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback,
+                it
+            )
+        }
+    }
+
+    // 시스템으로 부터 위치 정보를 콜백으로 받음
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            // 시스템에서 받은 location 정보를 onLocationChanged()에 전달
+            locationResult.lastLocation
+            onLocationChanged(locationResult.lastLocation)
+        }
+    }
+
+    // 시스템으로 부터 받은 위치정보를 화면에 갱신해주는 메소드
+    fun onLocationChanged(location: Location) {
+        mLastLocation = location
+
+        Log.e("dddddd", mLastLocation.latitude.toString())
+        Log.e("dddddd222", mLastLocation.longitude.toString())
+        getAddress(LatLng(mLastLocation.latitude, mLastLocation.longitude))
+        //text2.text = "위도 : " + mLastLocation.latitude // 갱신 된 위도
+        //text1.text = "경도 : " + mLastLocation.longitude // 갱신 된 경도
+
+    }
+
+
+    // 위치 권한이 있는지 확인하는 메서드
+    private fun checkPermissionForLocation(context: Context): Boolean {
+        // Android 6.0 Marshmallow 이상에서는 위치 권한에 추가 런타임 권한이 필요
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                true
+            } else {
+                // 권한이 없으므로 권한 요청 알림 보내기
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_LOCATION)
+                false
+            }
+        } else {
+            true
+        }
+    }
+
+    // 사용자에게 권한 요청 후 결과에 대한 처리 로직
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSION_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startLocationUpdates()
+
+            } else {
+                Log.d("ttt", "onRequestPermissionsResult() _ 권한 허용 거부")
+                Toast.makeText(this, "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onStart() {
         // 애니메이션 작동
         super.onStart()
         Handler().postDelayed({
             fab.show()
         }, 450)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

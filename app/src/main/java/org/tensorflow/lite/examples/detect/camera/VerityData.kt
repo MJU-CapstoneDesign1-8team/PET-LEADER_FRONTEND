@@ -9,5 +9,6 @@ data class VerityData(
     val resultSafety: Boolean = false,
     val uid: String = "",
     val nickname: String = "",
-    val date : String = ""
+    val date : String = "",
+    val address : String = ""
 )

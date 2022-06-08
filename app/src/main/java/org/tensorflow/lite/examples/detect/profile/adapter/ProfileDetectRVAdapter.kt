@@ -100,7 +100,7 @@ class ProfileDetectRVAdapter(val items  : MutableList<VerityData>) : RecyclerVie
         }
 
         fun loadImage(id: String, file: String) {
-            val storageRef = FirebaseStorage.getInstance().reference.child("images/${id}/${file}")
+            val storageRef = FirebaseStorage.getInstance().reference.child("image/${id}/${file}")
             val localFile = File.createTempFile("tempFile", "jpeg")
 
             storageRef.getFile(localFile).addOnSuccessListener {
